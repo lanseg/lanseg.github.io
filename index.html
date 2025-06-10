@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects & Learnings</title>
+    <style>
+        /* Base Styles */
+        body {
+            background-color: #f5f7fa;
+            color: #2c3e50;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            font-family: sans-serif;
+            background: #f5f7fa;
+            color: #1e2a38;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 0.5rem;
+            font-size: 2rem;
+        }
+
+        header p {
+            margin: 0;
+            font-weight: 300;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .entry {
+            background: #ffffff;
+            border: 1px solid #dcdfe3;
+            border-radius: 1px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+        }
+
+        .entry time {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .entry h2 {
+            margin: 0.3rem 0;
+            font-size: 1.25rem;
+            font-family: sans-serif;
+        }
+
+        .tags {
+            margin: 0.5rem 0;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #e3e7eb;
+            color: #2c3e50;
+            padding: 0.2rem 0.5rem;
+            margin-right: 0.4rem;
+            font-size: 0.75rem;
+            border-radius: 4px;
+        }
+
+        .content {
+            margin-top: 0.75rem;
+        }
+
+        pre {
+            background: #f0f1f4;
+            padding: 0.75rem;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Projects & Learnings</h1>
+        <p>Technical notes, experiments and updates</p>
+    </header>
+
+    <main>
+        <article class="entry">
+            <time datetime="2025-06-10">2025-06-10</time>
+            <h2>Title</h2>
+            <div class="tags">
+                <span class="tag">First tag</span>
+                <span class="tag">Second tag</span>
+                <span class="tag">Tag</span>
+            </div>
+            <p class="content">
+                Here goes the body of the note. Mabye doc, maybe code, etc. It could be long or short or whatever
+            </p>
+            <pre>
+# Example config
+
+def lorem():
+    return ipsum
+           </pre>
+        </article>
+</body>
+
+</html>
