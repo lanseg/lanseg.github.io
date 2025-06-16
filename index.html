@@ -67,11 +67,12 @@
         }
 
         .entry .tags {
-            margin: 0.5rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
         }
 
         .entry .tags .tag {
-            display: inline-block;
             padding: 0.2rem 0.5rem;
             margin-right: 0.4rem;
             font-size: 0.75rem;
@@ -140,7 +141,7 @@
             <time datetime="2025-06-10">2025-06-12</time>
             <h2>Title</h2>
             <div class="tags">
-                <span class="tag">TAG</span>
+                <div class="tag">TAG</div>
             </div>
             <p class="content">Text content</p>
             <div class="diff">
@@ -159,10 +160,10 @@
             <time datetime="2025-06-13">2025-06-13</time>
             <h2>Making OpenConnect work on SailfishOS</h2>
             <div class="tags">
-                <span class="tag">OpenConnect</span>
-                <span class="tag">SailfishOS</span>
-                <span class="tag">VPN</span>
-                <span class="tag">connman</span>
+                <div class="tag">OpenConnect</div>
+                <div class="tag">SailfishOS</div>
+                <div class="tag">VPN</div>
+                <div class="tag">connman</div>
             </div>
             <p class="content">
                 I'm one of the rare owners of a SailfishOS device. I had an original Jolla, a Sony
@@ -195,9 +196,9 @@ JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
             <time datetime="2025-06-10">2025-06-12</time>
             <h2>Configuring Green.ch DHCP on an OpenWRT router</h2>
             <div class="tags">
-                <span class="tag">OpenWRT</span>
-                <span class="tag">green.ch</span>
-                <span class="tag">DHCP</span>
+                <div class="tag">OpenWRT</div>
+                <div class="tag">green.ch</div>
+                <div class="tag">DHCP</div>
             </div>
             <p class="content">
                 I bought a Banana Pi BPI-R3 router, installed an OpenWRT firmware, but couldn't get
