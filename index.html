@@ -157,6 +157,32 @@
             <code>Code</code>
         </article> -->
         <article class="entry">
+            <time datetime="2025-06-16">2025-06-12</time>
+            <h2>Making OpenConnect work on SailfishOS, Part 2: Workaround</h2>
+            <div class="tags">
+                <div class="tag">OpenConnect</div>
+                <div class="tag">SailfishOS</div>
+                <div class="tag">VPN</div>
+            </div>
+            <p class="content">
+                At least, I need to make a note on how to use openconnect even without gui. Sailfish
+has an openconnect client by default, but it doesn't have default vpn scripts:</p>
+                <code># openconnect  https://somehost.com/?somekey
+...
+/bin/sh: /etc/openconnect/vpnc-script: not found
+Script '/etc/openconnect/vpnc-script' returned error 127
+/bin/sh: /etc/openconnect/vpnc-script: not found
+Script '/etc/openconnect/vpnc-script' returned error 127
+...</code>
+           <p>But ones from the
+           <a href="https://gitlab.com/openconnect/vpnc-scripts">OpenConnect's git repository</a>
+           work well and copying them to /etc/openconnect directory solves an issue. Of course, if
+           you don't want to put self generated files to the system directories, you can set the
+           script location:</p>
+           <code># openconnect -s /path/to/scripts/vpnc-script https://somehost.com/?somekey</code>
+        </article>
+
+        <article class="entry">
             <time datetime="2025-06-13">2025-06-13</time>
             <h2>Making OpenConnect work on SailfishOS</h2>
             <div class="tags">
