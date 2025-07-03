@@ -81,8 +81,25 @@
             box-shadow: 2px 2px 0px var(--shadow);
         }
 
-        .entry .content {
+        .entry p {
             margin-top: 0.75rem;
+        }
+
+        .entry .row {
+            width: 100%;
+            display: grid;
+            justify-items: center;
+        }
+
+        .entry .figure {
+            display: grid;
+            border: solid 1px var(--text);
+            box-shadow: 2px 2px 0px var(--shadow);
+        }
+
+        .entry .figure .label {
+            font-family: monospace;
+            padding-left: 0.5rem;
         }
 
         .entry .diff {
@@ -95,13 +112,6 @@
         .entry .diff .column {
             overflow: hidden;
             display: grid;
-            border: solid 1px var(--text);
-            box-shadow: 2px 2px 0px var(--shadow);
-        }
-
-        .entry .diff .column .label {
-            font-family: monospace;
-            padding-left: 0.5rem;
         }
 
         code {
@@ -143,7 +153,7 @@
             <div class="tags">
                 <div class="tag">TAG</div>
             </div>
-            <p class="content">Text content</p>
+            <p>Text content</p>
             <div class="diff">
                 <div class="column">
                     <img width="522px" height="130px" alt="Image left">
@@ -164,22 +174,61 @@
                 <div class="tag">SailfishOS</div>
                 <div class="tag">VPN</div>
             </div>
-            <p class="content">
+            <p>
                 At least, I need to make a note on how to use openconnect even without gui. Sailfish
-has an openconnect client by default, but it doesn't have default vpn scripts:</p>
-                <code># openconnect  https://somehost.com/?somekey
+                has an openconnect client by default, but it doesn't have default vpn scripts:
+            </p>
+            <code># openconnect  https://somehost.com/?somekey
 ...
 /bin/sh: /etc/openconnect/vpnc-script: not found
 Script '/etc/openconnect/vpnc-script' returned error 127
 /bin/sh: /etc/openconnect/vpnc-script: not found
 Script '/etc/openconnect/vpnc-script' returned error 127
 ...</code>
-           <p>But ones from the
-           <a href="https://gitlab.com/openconnect/vpnc-scripts">OpenConnect's git repository</a>
-           work well and copying them to /etc/openconnect directory solves an issue. Of course, if
-           you don't want to put self generated files to the system directories, you can set the
-           script location:</p>
-           <code># openconnect -s /path/to/scripts/vpnc-script https://somehost.com/?somekey</code>
+            <p>
+                But ones from the
+                <a href="https://gitlab.com/openconnect/vpnc-scripts">OpenConnect's git repository</a>
+                work well and copying them to /etc/openconnect directory solves an issue. Of course, if
+                you don't want to put self generated files to the system directories, you can set the
+                script location:
+            </p>
+            <code># openconnect -s /path/to/scripts/vpnc-script https://somehost.com/?somekey</code>
+            <p>
+                Good thing that it works by itself, bad thing that it is not integrated with the UI,
+                so I had to try other options:
+            </p>
+            <h3>Automatic cookie</h3>
+            <p>
+                I expected that it will fetch the cookie and certificate from credentials, but it
+                didn't work, I kept getting those getaddrinfo error messages.
+            </p>
+            <h3>Manual cookie</h3>
+            <p>If connman cannot fetch the cookie, I should do it myself:</p>
+            <code># openconnect --authenticate "https://somevpn.somedomain.com/?somesecretkey"
+POST https://somevpn.somedomain.com/?somesecretkey
+Connected to 23.32.165.3:443
+SSL negotiation with somevpn.somedomain.com
+Connected to HTTPS on somevpn.somedomain.com with ciphersuite TLSv1.2-ECKGB-ECFSB-AESMI6-WTF-OMG384
+XML POST enabled
+Please enter your username.
+Username:
+POST https://somevpn.somedomain.com/auth
+Please enter your password.
+Password:
+POST https://somevpn.somedomain.com/auth
+COOKIE='openconnect_strapkey=SGV5ISBBcmVudCB5b3Ugc25lYWt5IGJhc3RhcmQ/IEhlbGxvIHRoZXJlCg==; webvpn=cHdnZW4gLTEgb3Igc29tZXRoaW5nCg=='
+HOST='147.237.7.27'
+CONNECT_URL='https://somevpn.somedomain.com/'
+FINGERPRINT='pin-sha256:WWVzLiBBIGZpbmdlcnByaW50Cg=='</code>
+            <p>And it worked once, but I couldn't reproduce it again.</p>
+            <div class="row">
+                <div class="figure">
+                    <img src="2025-07-03/entercookie.png" width="361px" height="333px"
+                        alt="SailfishOS OpenConnect configuration with cookie and certificate fingerprint" />
+                    <div class="label">SailfishOS OpenConnect configuration</div>
+                </div>
+            </div>
+            <p>I'll stay with the plain openconnect for now.</p>
         </article>
 
         <article class="entry">
@@ -191,20 +240,20 @@ Script '/etc/openconnect/vpnc-script' returned error 127
                 <div class="tag">VPN</div>
                 <div class="tag">connman</div>
             </div>
-            <p class="content">
+            <p>
                 I'm one of the rare owners of a SailfishOS device. I had an original Jolla, a Sony
                 XPeria device with Sailfish and now I use Redeer C2. For me it is an only end-user
                 ready Linux mobile OS-es, but one thing kept bothering me - an OpenVPN (ocserv)
                 connection to my home network.
             </p>
-            <p class="content">
+            <p>
                 The problem was unclear: VPN connection kept flashing while trying to connect but
                 each attempt ended with "Connection problem" error. No notifications, no detailed
                 error messages. What is wrong with you? It worked on Android with the AnyConnect
                 client, it worked on a generic Linux with terminal client for "openconnect". And
                 the terminal client worked well even on the same SailfishOS. What could be wrong?
             </p>
-            <p class="content">Ok. Let's look in the logs:</p>
+            <p>Ok. Let's look in the logs:</p>
             <code>[root@JollaC2 defaultuser]# journalctl -r | grep -i vpn
 ...
 JollaC2 connman-vpnd[2317]: Failed to open HTTPS connection to my-vpn.somevds.ch/?somesecretkey
@@ -212,7 +261,7 @@ JollaC2 lipstick[2684]: [D] unknown:0 - VPN connection property changed: "State"
 JollaC2 connman-vpnd[2317]: getaddrinfo failed for host 'my-vpn.somevds.ch/?somesecretkey': Name or service not known
 JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
 ...</code>
-            <p class="content">
+            <p>
                 The culprit! It thinks that my whole url with a path and a parameter. A bit weird,
                 because my OpenConnect server uses camouflage mode and I don't want to disable it,
                 but connman doesn't know how to use it. I'll try to find a workaround next time.
@@ -226,7 +275,7 @@ JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
                 <div class="tag">green.ch</div>
                 <div class="tag">DHCP</div>
             </div>
-            <p class="content">
+            <p>
                 I bought a Banana Pi BPI-R3 router, installed an OpenWRT firmware, but couldn't get
                 an IP address from my provider, green.ch. I tried to use the same MAC address, but
                 it didn't work so I had to go deeper and what is the simplest way to debug such an
@@ -235,18 +284,18 @@ JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
                 my non-working router and saw a difference:
             </p>
             <div class="diff">
-                <div class="column">
+                <div class="column figure">
                     <img src="2025-06-10/dhcp-asus-dump.png" width="522px" height="130px"
                         alt="Wireshark output dump, working DHCP request">
                     <div class="label">Working DHCP request</div>
                 </div>
-                <div class="column">
+                <div class="column figure">
                     <img src="2025-06-10/dhcp-banana-dump.png" width="522px" height="130px"
                         alt="Wireshark output dump, DHCP request that was ignored by provider">
                     <div class="label">Ignored DHCP request</div>
                 </div>
             </div>
-            <p class="content">
+            <p>
                 So, the only difference was that the provider expected packet to be sent from a
                 802.1q vlan with ID 10. I've added it to the network config (/etc/config/network)
                 and everything worked.
