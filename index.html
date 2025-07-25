@@ -62,7 +62,13 @@
 
         .entry h2 {
             margin: 0.3rem 0;
-            font-size: 1.25rem;
+            font-size: 1.3rem;
+            font-family: sans-serif;
+        }
+
+        .entry h3 {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
             font-family: sans-serif;
         }
 
@@ -145,6 +151,18 @@
                 font-size: 1.5rem;
             }
         }
+
+        table {
+            width: 100%;
+            font-family: monospace;
+            border-collapse: collapse;
+        }
+
+        table .label {
+            font-weight: bold;
+            border: solid 1px var(--text);
+            box-shadow: 2px 2px 0px var(--shadow);
+        }
     </style>
 </head>
 
@@ -173,8 +191,205 @@
                     <div class="label">Caption right</div>
                 </div>
             </div>
+            <table>
+                <thead>
+                    <tr>
+                        <td class="label">Header</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Row</td></tr>
+                </tbody>
+            </table>
             <code>Code</code>
         </article> -->
+        <article class="entry">
+            <time datetime="2025-06-10">2025-06-12</time>
+            <h2>Exploring MAX messenger</h2>
+            <div class="tags">
+                <div class="tag">messengers</div>
+                <div class="tag">android</div>
+                <div class="tag">reverse engineering</div>
+            </div>
+            <p>
+                MAX messenger is a government-forced Russian messenger that is planned to replace
+                WhatsApp, Facebook messenger and other Western propaganda spreading machines. And
+                the Telegram too. While there is nothing interesting about the interface, there
+                could be something interesting inside so I installed the app on my Android emulator
+                and started to explore it.
+            </p>
+            <h3>TL;DR</h3>
+            <p>
+                Nothing unexpected, yet another messenger with an unclear future. Not a KGB trojan
+                surveillance app, just as private as any other messenger which is not focused on
+                protecting your data. It also needs a working phone number to register, so you can
+                forget about anonymity.
+            </p>
+            <p>
+                The only somewhat interesting thing is that it has a TamTam messenger inside, so
+                it's probably based on a TamTam codebase.
+            </p>
+            <h3>Package details</h3>
+            <table>
+                <thead><tr><td colspan="2" class="label">Version information</td></tr></thead>
+                <tbody>
+                    <tr><td>Origin</td><td>RuStore</td></tr>
+                    <tr><td>Package</td><td>ru.oneme.app</td></tr>
+                    <tr><td>Version</td><td>25.7.1</td></tr>
+                </tbody>
+            </table>
+            <table>
+                <thead><tr><td colspan="3" class="label">Package content</td></tr></thead>
+                <tbody>
+                    <tr><td>d88c78a92d75f0319af1a95b59e3867e</td><td>23M</td><td>base.apk</td></tr>
+                    <tr><td>7ef573467d338b6411ceb80cd278f9cb</td><td>2.8M</td><td>split_config.mdpi.apk</td></tr>
+                    <tr><td>0d978dc58e071136cddc8a815311154f</td><td>209K</td><td>split_config.ru.apk</td></tr>
+                    <tr><td>b3c75d266a1f1a55833cb9f052b9e075</td><td>26M</td><td>split_config.x86_64.apk</td></tr>
+                </tbody>
+            </table>
+            <h3>Permissions</h3>
+            <p>Like any other messenger, it can read and write media and storage, use camera and
+            microphone, prevent device lock, use vibration or show full screen intents, update app
+            badges and settings on different android-based platforms.
+            </p>
+            <p>Compared
+                <a href="./2025-07-24/permissions-max-25.7.1.txt">Max 25.7.1</a>,
+                <a href="./2025-07-24/permissions-signal-7.45.2.txt">Signal 7.45.3</a>,
+                <a href="./2025-07-24/permissions-telegram-11.13.3.txt">Telegram 11.13.3</a>,
+                <a href="./2025-07-24/permissions-threema-6.1.1.txt">Threema 6.1.1</a>,
+                <a href="./2025-07-24/permissions-wechat-8.0.58.txt">WeChat 8.0.68</a> and
+                <a href="./2025-07-24/permissions-whatsapp-2.25.21.14.txt">WhatsApp 2.25.21.4</a>,
+                detailed comparison table is here: <a href="./2025-07-24/comparison.txt">comparison.txt</a>.
+            </p>
+            <h3>Dependencies</h3>
+            <p>The messenger uses open source libraries, some of them are well known and widely used
+               in Java (Apache commons, Apache http, FasterXML, org/JSON, LZ4-java, OkHTTP3, WebRTC,
+               etc). The list below contains specific or not so famous libraries:</p>
+            <table>
+                <thead>
+                    <tr><td>Library</td><td>Description</td><td>Sources</td></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3" class="label">Odnoklassniki (ru/ok)</td>
+                    </tr>
+                    <tr>
+                        <td>android</td>
+                        <td>A somewhat lower-level code (api, http, compression, etc)</td>
+                        <td rowspan="6">N/A</td>
+                    </tr>
+                    <tr><td>messages</td><td>Reused code from OK.ru messenger</td></tr>
+                    <tr><td>onechat</td><td>Utility classes for the reactions view</td></tr>
+                    <tr><td>tamtam</td><td>Some Russian messenger</td></tr>
+                    <tr>
+                        <td>tracer</td>
+                        <td>
+                            OK-Tech service for profiling and failure reporting, closed source.
+                        </td>
+                    </tr>
+                    <tr><td>util</td><td>LZ4 compression support</td></tr>
+                    <tr>
+                        <td colspan="3" class="label">Analytics</td>
+                    </tr>
+                    <tr>
+                        <td>tracker.my.com</td>
+                        <td>Ads and analytics framework</td>
+                        <td>
+                            <a href="https://github.com/myTrackerSDK/mytracker-android">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="label">Facebook</td>
+                    </tr>
+                    <tr>
+                        <td>fresco</td>
+                        <td>System for displaying images in Android</td>
+                        <td><a href="https://github.com/facebook/fresco">GitHub</a></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="label">System and GUI libraries</td>
+                    </tr>
+                    <tr>
+                        <td>BoltsFramework</td>
+                        <td>Somewhat low-level async task management</td>
+                        <td>
+                            <a href="https://github.com/BoltsFramework/Bolts-Android">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Conductor</td>
+                        <td>BlueLine Labs' Framework for building View-based Android applications.</td>
+                        <td>
+                            <a href="https://github.com/bluelinelabs/Conductor">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>GPUImageNativeLibrary</td>
+                        <td>CATS OSS Something as similar to iOS GPUImage as possible.</td>
+                        <td>
+                            <a href="https://github.com/cats-oss/android-gpuimage">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>FastScroll</td>
+                        <td>
+                            FutureMind's Scroll and section indexer for recycler view.
+                        </td>
+                        <td>
+                            <a href="https://github.com/FutureMind/recycler-fast-scroll">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ProcessPhoenix</td>
+                        <td>Simplifies restarting application process</td>
+                        <td>
+                            <a href="https://github.com/JakeWharton/ProcessPhoenix">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ShortcutBadger</td>
+                        <td>Show the count of unread messages as a badge on the app shortcut</td>
+                        <td>
+                            <a href="https://github.com/leolin310148/ShortcutBadger">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>libphonenumber</td>
+                        <td>Android port of Google's libphonenumber.</td>
+                        <td>
+                            <a href="https://github.com/MichaelRocks/libphonenumber-android">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="label">Common libraries</td>
+                    </tr>
+                    <tr>
+                        <td>MessagePack</td>
+                        <td>Binary serialization format (like Google's protobuf)</td>
+                        <td>
+                            <a href="https://github.com/msgpack/msgpack-java">GitHub</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ReactiveX</td>
+                        <td>Reactive programming for Java</td>
+                        <td><a href="https://github.com/ReactiveX">GitHub</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Used service web links </h3>
+            <ul>
+                <li>api.oneme.ru</li>
+                <li>max.ru</li>
+                <li>api-tg.oneme.ru</li>
+                <li>api-test.oneme.ru</li>
+                <li>api-test-gost[,2,3,4].oneme.ru</li>
+                <li>tracker-api.vk-analytics.ru</li>
+            </ul>
+            <h3>Debugging</h3>
+            There is not much I can say without the debugging, so I will need to set up this
+            messenger on my phone to try it out.
+        </article>
         <article class="entry">
             <time datetime="2025-07-01">2025-07-01</time>
             <h2>Making OpenConnect work on SailfishOS, Part 2: Workaround</h2>
