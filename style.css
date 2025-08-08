@@ -1,0 +1,164 @@
+:root {
+    --base: #f0f1f4;
+    --shadow: #b8b8b8;
+    --text: black;
+    --terminal: #212a37;
+}
+
+/* Base Styles */
+body {
+    font-family: sans-serif;
+    background-color: var(--base);
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    font-family: sans-serif;
+    color: var(--text);
+    background-color: var(--base);
+    padding: 2rem 1rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 0.5rem;
+    font-size: 2rem;
+}
+
+header p {
+    margin: 0;
+    font-weight: 300;
+}
+
+main {
+    max-width: 800px;
+    margin: 0.5rem auto;
+    padding: 0 1rem;
+}
+
+.entry {
+    background: #ffffff;
+    border: 1px solid var(--text);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 2px 2px 0px var(--shadow);
+}
+
+.entry time {
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.entry h2 {
+    margin: 0.3rem 0;
+    font-size: 1.3rem;
+    font-family: sans-serif;
+}
+
+.entry h3 {
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+    font-family: sans-serif;
+}
+
+.entry .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.entry .tags .tag {
+    padding: 0.2rem 0.5rem;
+    margin-right: 0.4rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+    border: solid 1px var(--text);
+    box-shadow: 2px 2px 0px var(--shadow);
+}
+
+.entry p {
+    margin-top: 0.75rem;
+}
+
+.entry .row {
+    width: 100%;
+    display: grid;
+    justify-items: center;
+    overflow: visible;
+}
+
+.entry .figure {
+    width: 100%;
+    max-width: fit-content;
+    width: 100%;
+    display: grid;
+    border: solid 1px var(--text);
+    box-shadow: 2px 2px 0px var(--shadow);
+}
+
+.entry .figure.full {
+    max-width: 100%;
+}
+
+.entry .figure img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: initial;
+}
+
+.entry .figure .label {
+    font-family: monospace;
+    padding-left: 0.5rem;
+}
+
+.entry .diff {
+    width: 100%;
+    display: grid;
+    column-gap: 1rem;
+    grid-template-columns: auto auto;
+}
+
+.entry .diff .column {
+    overflow: hidden;
+    display: grid;
+}
+
+code {
+    color: white;
+    font-size: 0.95rem;
+    font-family: monospace;
+
+    border: solid 1px black;
+    background-color: var(--terminal);
+
+    padding: 0.75rem;
+
+    display: block;
+    white-space: pre;
+    overflow-x: scroll;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+}
+
+table {
+    width: 100%;
+    font-family: monospace;
+    border-collapse: collapse;
+}
+
+table .label {
+    font-weight: bold;
+    border: solid 1px var(--text);
+    box-shadow: 2px 2px 0px var(--shadow);
+}
+
+table tbody tr {
+    border-bottom: solid 1px var(--base);
+}
