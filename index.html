@@ -5,178 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projects & Learnings</title>
-    <style>
-        :root {
-            --base: #f0f1f4;
-            --shadow: #b8b8b8;
-            --text: black;
-            --terminal: #212a37;
-        }
-
-        /* Base Styles */
-        body {
-            font-family: sans-serif;
-            background-color: var(--base);
-            color: var(--text);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            font-family: sans-serif;
-            color: var(--text);
-            background-color: var(--base);
-            padding: 2rem 1rem;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0 0 0.5rem;
-            font-size: 2rem;
-        }
-
-        header p {
-            margin: 0;
-            font-weight: 300;
-        }
-
-        main {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .entry {
-            background: #ffffff;
-            border: 1px solid var(--text);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 2px 2px 0px var(--shadow);
-        }
-
-        .entry time {
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-
-        .entry h2 {
-            margin: 0.3rem 0;
-            font-size: 1.3rem;
-            font-family: sans-serif;
-        }
-
-        .entry h3 {
-            margin: 0.5rem 0;
-            font-size: 1.1rem;
-            font-family: sans-serif;
-        }
-
-        .entry .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.25rem;
-        }
-
-        .entry .tags .tag {
-            padding: 0.2rem 0.5rem;
-            margin-right: 0.4rem;
-            font-size: 0.75rem;
-            font-family: monospace;
-            border: solid 1px var(--text);
-            box-shadow: 2px 2px 0px var(--shadow);
-        }
-
-        .entry p {
-            margin-top: 0.75rem;
-        }
-
-        .entry .row {
-            width: 100%;
-            display: grid;
-            justify-items: center;
-        }
-
-        .entry .figure {
-            width: 100%;
-            max-width: fit-content;
-            width: 100%;
-            display: grid;
-            border: solid 1px var(--text);
-            box-shadow: 2px 2px 0px var(--shadow);
-        }
-
-        .entry .figure img {
-            width: 100%;
-            height: auto;
-            aspect-ratio: initial;
-        }
-
-        .entry .figure .label {
-            font-family: monospace;
-            padding-left: 0.5rem;
-        }
-
-        .entry .diff {
-            width: 100%;
-            display: grid;
-            column-gap: 1rem;
-            grid-template-columns: auto auto;
-        }
-
-        .entry .diff .column {
-            overflow: hidden;
-            display: grid;
-        }
-
-        code {
-            color: white;
-            font-size: 0.95rem;
-            font-family: monospace;
-
-            border: solid 1px black;
-            background-color: var(--terminal);
-
-            padding: 0.75rem;
-            margin-top: 1rem;
-            box-shadow: 2px 2px 0px var(--shadow);
-
-            display: block;
-            white-space: pre;
-            overflow-x: scroll;
-        }
-
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 1.5rem;
-            }
-        }
-
-        table {
-            width: 100%;
-            font-family: monospace;
-            border-collapse: collapse;
-        }
-
-        table .label {
-            font-weight: bold;
-            border: solid 1px var(--text);
-            box-shadow: 2px 2px 0px var(--shadow);
-        }
-
-        table tbody tr {
-            border-bottom: solid 1px var(--base);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
     <header>
         <h1>Projects & Learnings</h1>
         <p>Technical notes, experiments and updates</p>
     </header>
-
     <main>
         <!-- <article class="entry">
             <time datetime="2025-06-10">2025-06-12</time>
@@ -250,7 +86,10 @@
                 </a> and have sfdk installed. Make sure to do all the stuff within a workspace,
                 because Sailfish SDK uses a VirtualBox VM or Docker container as a build host and
                 mounts workspace directory there.
-                <code>~/devel/sailfish $ sfdk tools list
+
+                <div class="row">
+                    <div class="figure full">
+                        <code>~/devel/sailfish $ sfdk tools list
 SailfishOS-5.0.0.62              sdk-provided,latest
 ├── SailfishOS-5.0.0.62-aarch64  sdk-provided,latest
 ├── SailfishOS-5.0.0.62-armv7hl  sdk-provided,latest
@@ -265,15 +104,15 @@ SailfishOS-5.0.0.62              sdk-provided,latest
 ~/devel/sailfish $ md5sum RPMS/*
 4465b8ccfcd11838c93a2671d645f5e7  RPMS/Python-3.13.6-1.aarch64.rpm
 ab2ace4188f8e5fe5d0d9a6406392abb  RPMS/Python-debuginfo-3.13.6-1.aarch64.rpm
-b73d814fec8e3cb3af708126f5220534  RPMS/Python-debugsource-3.13.6-1.aarch64.rpm
-</code>
-
+b73d814fec8e3cb3af708126f5220534  RPMS/Python-debugsource-3.13.6-1.aarch64.rpm</code>
+                    </div>
+                </div>
                 That should be enough: a somewhat optimized, somewhat stripped, complete python
                 distribution ready for common tasks including downloading youtube videos with
                 yt-dlp.
-            </p>
-            <p>
-                The RPM spec unpacks, compiles, and prepares a large package:
+
+                <div class="row">
+                    <div class="figure full">
                 <code>Name:       Python
 Summary:    Version 3.13 of the python interpreter
 Version:    3.13.6
@@ -306,10 +145,17 @@ DESTDIR=$RPM_BUILD_ROOT make install
 %defattr(-,root,root,-)
 /usr/local/
 </code>
+<div class="label">The RPM spec unpacks, compiles, and prepares a large package</div>
+</div>
+</div>
             </p>
             <h3>Part 2: yt-dlp</h3>
-            <p>With the latest stable Python and pip, it's enough to just install it from pip.</p>
-            <code>defaultuser $ python3 -m pip install -U "yt-dlp[default]"</code>
+            <p>With the latest stable Python and pip, it's enough to just install it from pip:</p>
+            <div class="row">
+                <div class="figure full">
+                    <code>defaultuser $ python3 -m pip install -U "yt-dlp[default]"</code>
+                </div>
+            </div>
             <p>If you are going to use yt-dlp, there is no need to create an RPM package.</p>
             <h3>Part 3: VLC</h3>
             <p>
@@ -524,13 +370,17 @@ DESTDIR=$RPM_BUILD_ROOT make install
                 At least, I need to make a note on how to use openconnect even without gui. Sailfish
                 has an openconnect client by default, but it doesn't have default vpn scripts:
             </p>
-            <code># openconnect  https://somehost.com/?somekey
+            <div class="row">
+                <div class="figure full">
+                    <code># openconnect  https://somehost.com/?somekey
 ...
 /bin/sh: /etc/openconnect/vpnc-script: not found
 Script '/etc/openconnect/vpnc-script' returned error 127
 /bin/sh: /etc/openconnect/vpnc-script: not found
 Script '/etc/openconnect/vpnc-script' returned error 127
 ...</code>
+                </div>
+            </div>
             <p>
                 But ones from the
                 <a href="https://gitlab.com/openconnect/vpnc-scripts">OpenConnect's git repository</a>
@@ -538,7 +388,11 @@ Script '/etc/openconnect/vpnc-script' returned error 127
                 you don't want to put self generated files to the system directories, you can set the
                 script location:
             </p>
+            <div class="row">
+                <div class="figure full">
             <code># openconnect -s /path/to/scripts/vpnc-script https://somehost.com/?somekey</code>
+                </div>
+            </div>
             <p>
                 Good thing that it works by itself, bad thing that it is not integrated with the UI,
                 so I had to try other options:
@@ -550,7 +404,9 @@ Script '/etc/openconnect/vpnc-script' returned error 127
             </p>
             <h3>Manual cookie</h3>
             <p>If connman cannot fetch the cookie, I should do it myself:</p>
-            <code># openconnect --authenticate "https://somevpn.somedomain.com/?somesecretkey"
+            <div class="row">
+                <div class="figure full">
+                    <code># openconnect --authenticate "https://somevpn.somedomain.com/?somesecretkey"
 POST https://somevpn.somedomain.com/?somesecretkey
 Connected to 23.32.165.3:443
 SSL negotiation with somevpn.somedomain.com
@@ -566,6 +422,8 @@ COOKIE='openconnect_strapkey=SGV5ISBBcmVudCB5b3Ugc25lYWt5IGJhc3RhcmQ/IEhlbGxvIHR
 HOST='147.237.7.27'
 CONNECT_URL='https://somevpn.somedomain.com/'
 FINGERPRINT='pin-sha256:WWVzLiBBIGZpbmdlcnByaW50Cg=='</code>
+                    </div>
+            </div>
             <p>And it worked! Just pay attention when copy-pasting text from the fingerterm, as it
                 will add spaces where the text was broken by the side of the screen.
             </p>
@@ -602,6 +460,8 @@ FINGERPRINT='pin-sha256:WWVzLiBBIGZpbmdlcnByaW50Cg=='</code>
                 the terminal client worked well even on the same Sailfish OS. What could be wrong?
             </p>
             <p>Ok. Let's look in the logs:</p>
+            <div class="row">
+                <div class="figure full">
             <code>[root@JollaC2 defaultuser]# journalctl -r | grep -i vpn
 ...
 JollaC2 connman-vpnd[2317]: Failed to open HTTPS connection to my-vpn.somevds.ch/?somesecretkey
@@ -609,6 +469,8 @@ JollaC2 lipstick[2684]: [D] unknown:0 - VPN connection property changed: "State"
 JollaC2 connman-vpnd[2317]: getaddrinfo failed for host 'my-vpn.somevds.ch/?somesecretkey': Name or service not known
 JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
 ...</code>
+                </div>
+            </div>
             <p>
                 The culprit! It thinks that my whole url with a path and a parameter. A bit weird,
                 because my OpenConnect server uses camouflage mode and I don't want to disable it,
@@ -648,7 +510,9 @@ JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
                 802.1q vlan with ID 10. I've added it to the network config (/etc/config/network)
                 and everything worked.
             </p>
-            <code>config device
+            <div class="row">
+                <div class="figure full">
+                    <code>config device
         option type '8021q'
         option ifname 'wan'
         option vid '10'
@@ -659,7 +523,8 @@ config interface 'wan'
         option device 'vlan10'
         option hostname '*'
 </code>
-        </article>
+                </div>
+            </div>
+    </article>
 </body>
-
 </html>
