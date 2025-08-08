@@ -207,6 +207,124 @@
             </table>
             <code>Code</code>
         </article> -->
+
+        <article class="entry">
+            <time datetime="2025-08-07">2025-08-07</time>
+            <h2>Newer Python and yt-dlp for the Sailfish OS</h2>
+            <div class="tags">
+                <div class="tag">Sailfish OS</div>
+                <div class="tag">Python</div>
+                <div class="tag">yt-dlp</div>
+                <div class="tag">Jolla</div>
+            </div>
+            <p>
+                I moved to the Redeer C2, community edition with Sailfish OS. Not 100% voluntarily,
+                but not against my will either. My phone's touch screen just broke, and I needed a
+                replacement.
+            </p>
+            <p>
+                I still think that Sailfish OS is a nice system, and its user interface is the only
+                mobile Linux UI that is customer-ready. Unfortunately, the system lacks many common
+                applications, such as a video player (the music player exists and is okay for my
+                needs) or a YouTube client. So my plan was to download videos with yt-dlp and view \
+                them locally.
+            </p>
+            <h3>Part 1: <s>yt-dlp</s> Python</h2>
+            <p>
+                What could be simpler than downloading and running yt-dlp from
+                <a href="https://github.com/yt-dlp/yt-dlp">github</a> or installing from pip? But
+                my phone only had Python 3.8 (python3-base-3.8.18) and yt-dlp dropped support for it
+                almost a year ago (<a href="https://github.com/yt-dlp/yt-dlp/pull/11321">#1132</a>).
+            </p>
+            <p>
+                I was not looking for an easy way, so I decided to cross-compile python myself. But
+                I was not looking for a dirty way either, so I decided to create an RPM package that
+                could be installed independently from the original Python and removed later if
+                needed.
+            </p>
+            <h4>Building and packaging</h2>
+            <p>
+                Let's assume you have already followed the
+                <a href="https://docs.sailfishos.org/Tools/Sailfish_SDK/#all-download-options">
+                    Sailfish SDK installation instructions
+                </a> and have sfdk installed. Make sure to do all the stuff within a workspace,
+                because Sailfish SDK uses a VirtualBox VM or Docker container as a build host and
+                mounts workspace directory there.
+                <code>~/devel/sailfish $ sfdk tools list
+SailfishOS-5.0.0.62              sdk-provided,latest
+├── SailfishOS-5.0.0.62-aarch64  sdk-provided,latest
+├── SailfishOS-5.0.0.62-armv7hl  sdk-provided,latest
+└── SailfishOS-5.0.0.62-i486     sdk-provided,latest
+
+~/devel/sailfish $ sfdk config --push target SailfishOS-5.0.0.62-aarch64
+~/devel/sailfish $ curl https://www.python.org/ftp/python/3.13.6/Python-3.13.6.tgz -O
+~/devel/sailfish $ curl https://lanseg.github.io/2025-08-07/Python-3.13.6.spec -O
+~/devel/sailfish $ sfdk --specfile ./Python-3.13.6.spec build --prepare
+... Lot's of output...
+
+~/devel/sailfish $ md5sum RPMS/*
+4465b8ccfcd11838c93a2671d645f5e7  RPMS/Python-3.13.6-1.aarch64.rpm
+ab2ace4188f8e5fe5d0d9a6406392abb  RPMS/Python-debuginfo-3.13.6-1.aarch64.rpm
+b73d814fec8e3cb3af708126f5220534  RPMS/Python-debugsource-3.13.6-1.aarch64.rpm
+</code>
+
+                That should be enough: a somewhat optimized, somewhat stripped, complete python
+                distribution ready for common tasks including downloading youtube videos with
+                yt-dlp.
+            </p>
+            <p>
+                The RPM spec unpacks, compiles, and prepares a large package:
+                <code>Name:       Python
+Summary:    Version 3.13 of the python interpreter
+Version:    3.13.6
+Release:    1
+License:    Python-2.0.1
+Source0:    %{name}-%{version}.tgz
+URL:        https://www.python.org
+
+Requires: openssl readline libuuid xz
+Buildrequires: openssl-devel readline-devel libuuid-devel xz-devel
+
+%description
+Python is an interpreted, interactive, object-oriented programming language. This package contains
+most of the need a programmable interface and standard Python modules.
+
+%prep
+tar -xvf %{name}-%{version}.tgz
+
+%build
+mkdir build
+cd build
+../%{name}-%{version}/configure --prefix=/usr/local --enable-optimizations --with-openssl=/usr/
+make %{?_smp_mflags}
+
+%install
+cd build
+DESTDIR=$RPM_BUILD_ROOT make install
+
+%files
+%defattr(-,root,root,-)
+/usr/local/
+</code>
+            </p>
+            <h3>Part 2: yt-dlp</h3>
+            <p>With the latest stable Python and pip, it's enough to just install it from pip.</p>
+            <code>defaultuser $ python3 -m pip install -U "yt-dlp[default]"</code>
+            <p>If you are going to use yt-dlp, there is no need to create an RPM package.</p>
+            <h3>Part 3: VLC</h3>
+            <p>
+            Next time - VLC, probably. It works, but requires some styling to look like other
+            Sailfish apps.
+            </p>
+            <div class="row">
+                <div class="figure">
+                    <img src="2025-08-07/vlc_maybe.jpg" width="657px" height="211px"
+                        alt="Terminal with a long error log and vlc window without video" />
+                    <div class="label">Terminal where I started VLC with lots of error logs and broken app window</div>
+                </div>
+            </div>
+        </article>
+
         <article class="entry">
             <time datetime="2025-06-10">2025-06-12</time>
             <h2>Exploring MAX messenger</h2>
@@ -396,10 +514,10 @@
         </article>
         <article class="entry">
             <time datetime="2025-07-01">2025-07-01</time>
-            <h2>Making OpenConnect work on SailfishOS, Part 2: Workaround</h2>
+            <h2>Making OpenConnect work on Sailfish OS, Part 2: Workaround</h2>
             <div class="tags">
                 <div class="tag">OpenConnect</div>
-                <div class="tag">SailfishOS</div>
+                <div class="tag">Sailfish OS</div>
                 <div class="tag">VPN</div>
             </div>
             <p>
@@ -454,8 +572,8 @@ FINGERPRINT='pin-sha256:WWVzLiBBIGZpbmdlcnByaW50Cg=='</code>
             <div class="row">
                 <div class="figure">
                     <img src="2025-07-03/entercookie.png" width="360px" height="331px"
-                        alt="SailfishOS OpenConnect configuration with cookie and certificate fingerprint" />
-                    <div class="label">SailfishOS OpenConnect configuration</div>
+                        alt="Sailfish OS OpenConnect configuration with cookie and certificate fingerprint" />
+                    <div class="label">Sailfish OS OpenConnect configuration</div>
                 </div>
             </div>
             <p>Next time I'll try automate cookie update.</p>
@@ -463,15 +581,15 @@ FINGERPRINT='pin-sha256:WWVzLiBBIGZpbmdlcnByaW50Cg=='</code>
 
         <article class="entry">
             <time datetime="2025-06-13">2025-06-13</time>
-            <h2>Making OpenConnect work on SailfishOS</h2>
+            <h2>Making OpenConnect work on Sailfish OS</h2>
             <div class="tags">
                 <div class="tag">OpenConnect</div>
-                <div class="tag">SailfishOS</div>
+                <div class="tag">Sailfish OS</div>
                 <div class="tag">VPN</div>
                 <div class="tag">connman</div>
             </div>
             <p>
-                I'm one of the rare owners of a SailfishOS device. I had an original Jolla, a Sony
+                I'm one of the rare owners of a Sailfish OS device. I had an original Jolla, a Sony
                 XPeria device with Sailfish and now I use Redeer C2. For me it is an only end-user
                 ready Linux mobile OS-es, but one thing kept bothering me - an OpenVPN (ocserv)
                 connection to my home network.
@@ -481,13 +599,13 @@ FINGERPRINT='pin-sha256:WWVzLiBBIGZpbmdlcnByaW50Cg=='</code>
                 each attempt ended with "Connection problem" error. No notifications, no detailed
                 error messages. What is wrong with you? It worked on Android with the AnyConnect
                 client, it worked on a generic Linux with terminal client for "openconnect". And
-                the terminal client worked well even on the same SailfishOS. What could be wrong?
+                the terminal client worked well even on the same Sailfish OS. What could be wrong?
             </p>
             <p>Ok. Let's look in the logs:</p>
             <code>[root@JollaC2 defaultuser]# journalctl -r | grep -i vpn
 ...
 JollaC2 connman-vpnd[2317]: Failed to open HTTPS connection to my-vpn.somevds.ch/?somesecretkey
-JollaC2 lipstick[2684]: [D] unknown:0 - VPN connection property changed: "State" QVariant(QString, "configuration") "/net/connman/vpn/connection/https___my_vpn_somevds_ch__somesecretkey_sailfishos_org" "Home"
+JollaC2 lipstick[2684]: [D] unknown:0 - VPN connection property changed: "State" QVariant(QString, "configuration") "/net/connman/vpn/connection/https___my_vpn_somevds_ch__somesecretkey_Sailfish OS_org" "Home"
 JollaC2 connman-vpnd[2317]: getaddrinfo failed for host 'my-vpn.somevds.ch/?somesecretkey': Name or service not known
 JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
 ...</code>
