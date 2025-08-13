@@ -16,7 +16,6 @@ body {
 }
 
 header {
-    font-family: sans-serif;
     color: var(--text);
     background-color: var(--base);
     padding: 2rem 1rem;
@@ -39,32 +38,42 @@ main {
     padding: 0 1rem;
 }
 
+/* Shadow */
+.entry,
+.entry .figure,
+.entry .tags .tag,
+.entry table .label  {
+    box-shadow: 2px 2px 0 var(--shadow);
+}
+
 .entry {
-    background: #ffffff;
-    border: 1px solid var(--text);
+    background: white;
+    border: solid 1px var(--text);
     padding: 1.5rem;
     margin-bottom: 2rem;
-    box-shadow: 2px 2px 0px var(--shadow);
 }
 
 .entry time {
-    font-family: monospace;
     font-size: 0.9rem;
 }
 
 .entry h2 {
     margin: 0.3rem 0;
     font-size: 1.3rem;
-    font-family: sans-serif;
+}
+
+.entry h2 a, a:visited {
+    text-decoration: none;
+    color: inherit;
 }
 
 .entry h3 {
-    margin: 0.5rem 0 0 0;
+    margin: 0.5rem 0;
     font-size: 1.1rem;
 }
 
 .entry h4 {
-    margin: 0.25rem 0 0 0;
+    margin: 0.25rem 0;
     font-size: 1rem;
 }
 
@@ -80,11 +89,9 @@ main {
     font-size: 0.75rem;
     font-family: monospace;
     border: solid 1px var(--text);
-    box-shadow: 2px 2px 0px var(--shadow);
 }
 
 .entry p {
-    margin: 0px;
     margin-top: 0.75rem;
 }
 
@@ -92,7 +99,10 @@ main {
     width: 100%;
     display: grid;
     justify-items: center;
-    overflow: visible;
+}
+
+.entry .figure {
+    font-family: monospace;
 }
 
 .entry .figure {
@@ -101,7 +111,6 @@ main {
     max-width: fit-content;
     display: grid;
     border: solid 1px var(--text);
-    box-shadow: 2px 2px 0px var(--shadow);
 }
 
 .entry .figure.full {
@@ -111,11 +120,9 @@ main {
 .entry .figure img {
     width: 100%;
     height: auto;
-    aspect-ratio: initial;
 }
 
 .entry .figure .label {
-    font-family: monospace;
     padding-left: 0.5rem;
 }
 
@@ -134,14 +141,11 @@ main {
 code {
     color: white;
     font-size: 0.95rem;
-    font-family: monospace;
     background-color: var(--terminal);
-
     padding: 0.75rem;
-
     display: block;
     white-space: pre;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 @media (max-width: 600px) {
@@ -159,7 +163,6 @@ table {
 table .label {
     font-weight: bold;
     border: solid 1px var(--text);
-    box-shadow: 2px 2px 0px var(--shadow);
 }
 
 table tbody tr {
