@@ -1,0 +1,16 @@
+# openconnect --authenticate "https://somevpn.somedomain.com/?somesecretkey"
+POST https://somevpn.somedomain.com/?somesecretkey
+Connected to 23.32.165.3:443
+SSL negotiation with somevpn.somedomain.com
+Connected to HTTPS on somevpn.somedomain.com with ciphersuite TLSv1.2-ECKGB-ECFSB-AESMI6-WTF-OMG384
+XML POST enabled
+Please enter your username.
+Username:
+POST https://somevpn.somedomain.com/auth
+Please enter your password.
+Password:
+POST https://somevpn.somedomain.com/auth
+COOKIE='openconnect_strapkey=SGV5ISBBcmVudCB5b3Ugc25lYWt5IGJhc3RhcmQ/IEhlbGxvIHRoZXJlCg==; webvpn=cHdnZW4gLTEgb3Igc29tZXRoaW5nCg=='
+HOST='147.237.7.27'
+CONNECT_URL='https://somevpn.somedomain.com/'
+FINGERPRINT='pin-sha256:WWVzLiBBIGZpbmdlcnByaW50Cg=='

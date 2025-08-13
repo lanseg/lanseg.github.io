@@ -1,0 +1,16 @@
+~/devel/sailfish $ sfdk tools list
+SailfishOS-5.0.0.62              sdk-provided,latest
+├── SailfishOS-5.0.0.62-aarch64  sdk-provided,latest
+├── SailfishOS-5.0.0.62-armv7hl  sdk-provided,latest
+└── SailfishOS-5.0.0.62-i486     sdk-provided,latest
+
+~/devel/sailfish $ sfdk config --push target SailfishOS-5.0.0.62-aarch64
+~/devel/sailfish $ curl https://www.python.org/ftp/python/3.13.6/Python-3.13.6.tgz -O
+~/devel/sailfish $ curl https://lanseg.github.io/2025-08-07/Python-3.13.6.spec -O
+~/devel/sailfish $ sfdk --specfile ./Python-3.13.6.spec build --prepare
+... Lot's of output...
+
+~/devel/sailfish $ md5sum RPMS/*
+4465b8ccfcd11838c93a2671d645f5e7  RPMS/Python-3.13.6-1.aarch64.rpm
+ab2ace4188f8e5fe5d0d9a6406392abb  RPMS/Python-debuginfo-3.13.6-1.aarch64.rpm
+b73d814fec8e3cb3af708126f5220534  RPMS/Python-debugsource-3.13.6-1.aarch64.rpm

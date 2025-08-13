@@ -90,22 +90,7 @@
 
                 <div class="row">
                     <div class="figure full">
-                        <code>~/devel/sailfish $ sfdk tools list
-SailfishOS-5.0.0.62              sdk-provided,latest
-├── SailfishOS-5.0.0.62-aarch64  sdk-provided,latest
-├── SailfishOS-5.0.0.62-armv7hl  sdk-provided,latest
-└── SailfishOS-5.0.0.62-i486     sdk-provided,latest
-
-~/devel/sailfish $ sfdk config --push target SailfishOS-5.0.0.62-aarch64
-~/devel/sailfish $ curl https://www.python.org/ftp/python/3.13.6/Python-3.13.6.tgz -O
-~/devel/sailfish $ curl https://lanseg.github.io/2025-08-07/Python-3.13.6.spec -O
-~/devel/sailfish $ sfdk --specfile ./Python-3.13.6.spec build --prepare
-... Lot's of output...
-
-~/devel/sailfish $ md5sum RPMS/*
-4465b8ccfcd11838c93a2671d645f5e7  RPMS/Python-3.13.6-1.aarch64.rpm
-ab2ace4188f8e5fe5d0d9a6406392abb  RPMS/Python-debuginfo-3.13.6-1.aarch64.rpm
-b73d814fec8e3cb3af708126f5220534  RPMS/Python-debugsource-3.13.6-1.aarch64.rpm</code>
+                        <code>include(`2025-08-07/sfdk-config.txt')</code>
                     </div>
                 </div>
                 <p>
@@ -115,41 +100,12 @@ b73d814fec8e3cb3af708126f5220534  RPMS/Python-debugsource-3.13.6-1.aarch64.rpm</
                 </p>
                 <div class="row">
                     <div class="figure full">
-                <code>Name:       Python
-Summary:    Version 3.13 of the python interpreter
-Version:    3.13.6
-Release:    1
-License:    Python-2.0.1
-Source0:    %{name}-%{version}.tgz
-URL:        https://www.python.org
-
-Requires: openssl readline libuuid xz
-Buildrequires: openssl-devel readline-devel libuuid-devel xz-devel
-
-%description
-Python is an interpreted, interactive, object-oriented programming language. This package contains
-most of the need a programmable interface and standard Python modules.
-
-%prep
-tar -xvf %{name}-%{version}.tgz
-
-%build
-mkdir build
-cd build
-../%{name}-%{version}/configure --prefix=/usr/local --enable-optimizations --with-openssl=/usr/
-make %{?_smp_mflags}
-
-%install
-cd build
-DESTDIR=$RPM_BUILD_ROOT make install
-
-%files
-%defattr(-,root,root,-)
-/usr/local/
-</code>
-<div class="label">The RPM spec unpacks, compiles, and prepares a large package</div>
-</div>
-</div>
+                        <code>include(`2025-08-07/python-3.13.6.spec')</code>
+                        <div class="label">
+                            The RPM spec unpacks, compiles, and prepares a large package
+                        </div>
+                    </div>
+                </div>
             </p>
             <h3>Part 2: yt-dlp</h3>
             <p>With the latest stable Python and pip, it's enough to just install it from pip:</p>
@@ -408,23 +364,8 @@ Script '/etc/openconnect/vpnc-script' returned error 127
             <p>If connman cannot fetch the cookie, I should do it myself:</p>
             <div class="row">
                 <div class="figure full">
-                    <code># openconnect --authenticate "https://somevpn.somedomain.com/?somesecretkey"
-POST https://somevpn.somedomain.com/?somesecretkey
-Connected to 23.32.165.3:443
-SSL negotiation with somevpn.somedomain.com
-Connected to HTTPS on somevpn.somedomain.com with ciphersuite TLSv1.2-ECKGB-ECFSB-AESMI6-WTF-OMG384
-XML POST enabled
-Please enter your username.
-Username:
-POST https://somevpn.somedomain.com/auth
-Please enter your password.
-Password:
-POST https://somevpn.somedomain.com/auth
-COOKIE='openconnect_strapkey=SGV5ISBBcmVudCB5b3Ugc25lYWt5IGJhc3RhcmQ/IEhlbGxvIHRoZXJlCg==; webvpn=cHdnZW4gLTEgb3Igc29tZXRoaW5nCg=='
-HOST='147.237.7.27'
-CONNECT_URL='https://somevpn.somedomain.com/'
-FINGERPRINT='pin-sha256:WWVzLiBBIGZpbmdlcnByaW50Cg=='</code>
-                    </div>
+                    <code>include(`2025-07-03/openconnect-logs.txt')</code>
+                </div>
             </div>
             <p>And it worked! Just pay attention when copy-pasting text from the fingerterm, as it
                 will add spaces where the text was broken by the side of the screen.
@@ -514,17 +455,7 @@ JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
             </p>
             <div class="row">
                 <div class="figure full">
-                    <code>config device
-        option type '8021q'
-        option ifname 'wan'
-        option vid '10'
-        option name 'vlan10'
-
-config interface 'wan'
-        option proto 'dhcp'
-        option device 'vlan10'
-        option hostname '*'
-</code>
+                    <code>include(`2025-06-10/openwrt-vlan.txt')</code>
                 </div>
             </div>
     </article>

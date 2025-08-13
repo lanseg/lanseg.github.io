@@ -1,0 +1,10 @@
+config device
+        option type '8021q'
+        option ifname 'wan'
+        option vid '10'
+        option name 'vlan10'
+
+config interface 'wan'
+        option proto 'dhcp'
+        option device 'vlan10'
+        option hostname '*'
