@@ -12,7 +12,11 @@
     <header>
         <h1>Projects & Learnings</h1>
         <p>Technical notes, experiments and updates</p>
-        <p><a href="mailto:lanseg@proton.me">lanseg@proton.me</a> - <a href="https://github.com/lanseg">github.com/lanseg</a></p>
+        <p>
+            <a href="mailto:lanseg@proton.me">lanseg@proton.me</a> -
+            <a href="https://github.com/lanseg">github.com/lanseg</a> -
+            <a href="plans.html">plans</a>
+        </p>
     </header>
     <main>
         <!-- <article class="entry">
@@ -92,24 +96,24 @@
                 because Sailfish SDK uses a VirtualBox VM or Docker container as a build host and
                 mounts workspace directory there.
 
-                <div class="row">
-                    <div class="figure full">
-                        <code>include(`2025-08-07/sfdk-config.txt')</code>
-                    </div>
+            <div class="row">
+                <div class="figure full">
+                    <code>include(`2025-08-07/sfdk-config.txt')</code>
                 </div>
-                <p>
+            </div>
+            <p>
                 That should be enough: a somewhat optimized, somewhat stripped, complete python
                 distribution ready for common tasks including downloading youtube videos with
                 yt-dlp.
-                </p>
-                <div class="row">
-                    <div class="figure full">
-                        <code>include(`2025-08-07/python-3.13.6.spec')</code>
-                        <div class="label">
-                            The RPM spec unpacks, compiles, and prepares a large package
-                        </div>
+            </p>
+            <div class="row">
+                <div class="figure full">
+                    <code>include(`2025-08-07/python-3.13.6.spec')</code>
+                    <div class="label">
+                        The RPM spec unpacks, compiles, and prepares a large package
                     </div>
                 </div>
+            </div>
             </p>
             <h3>Part 2: yt-dlp</h3>
             <p>With the latest stable Python and pip, it's enough to just install it from pip:</p>
@@ -121,8 +125,8 @@
             <p>If you are going to use yt-dlp, there is no need to create an RPM package.</p>
             <h3>Part 3: VLC</h3>
             <p>
-            Next time - VLC, probably. It works, but requires some styling to look like other
-            Sailfish apps.
+                Next time - VLC, probably. It works, but requires some styling to look like other
+                Sailfish apps.
             </p>
             <div class="row">
                 <div class="figure">
@@ -165,26 +169,59 @@
             </p>
             <h3>Package details</h3>
             <table>
-                <thead><tr><td colspan="2" class="label">Version information</td></tr></thead>
+                <thead>
+                    <tr>
+                        <td colspan="2" class="label">Version information</td>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td>Origin</td><td>RuStore</td></tr>
-                    <tr><td>Package</td><td>ru.oneme.app</td></tr>
-                    <tr><td>Version</td><td>25.7.1</td></tr>
+                    <tr>
+                        <td>Origin</td>
+                        <td>RuStore</td>
+                    </tr>
+                    <tr>
+                        <td>Package</td>
+                        <td>ru.oneme.app</td>
+                    </tr>
+                    <tr>
+                        <td>Version</td>
+                        <td>25.7.1</td>
+                    </tr>
                 </tbody>
             </table>
             <table>
-                <thead><tr><td colspan="3" class="label">Package content</td></tr></thead>
+                <thead>
+                    <tr>
+                        <td colspan="3" class="label">Package content</td>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr><td>d88c78a92d75f0319af1a95b59e3867e</td><td>23M</td><td>base.apk</td></tr>
-                    <tr><td>7ef573467d338b6411ceb80cd278f9cb</td><td>2.8M</td><td>split_config.mdpi.apk</td></tr>
-                    <tr><td>0d978dc58e071136cddc8a815311154f</td><td>209K</td><td>split_config.ru.apk</td></tr>
-                    <tr><td>b3c75d266a1f1a55833cb9f052b9e075</td><td>26M</td><td>split_config.x86_64.apk</td></tr>
+                    <tr>
+                        <td>d88c78a92d75f0319af1a95b59e3867e</td>
+                        <td>23M</td>
+                        <td>base.apk</td>
+                    </tr>
+                    <tr>
+                        <td>7ef573467d338b6411ceb80cd278f9cb</td>
+                        <td>2.8M</td>
+                        <td>split_config.mdpi.apk</td>
+                    </tr>
+                    <tr>
+                        <td>0d978dc58e071136cddc8a815311154f</td>
+                        <td>209K</td>
+                        <td>split_config.ru.apk</td>
+                    </tr>
+                    <tr>
+                        <td>b3c75d266a1f1a55833cb9f052b9e075</td>
+                        <td>26M</td>
+                        <td>split_config.x86_64.apk</td>
+                    </tr>
                 </tbody>
             </table>
             <h3>Permissions</h3>
             <p>Like any other messenger, it can read and write media and storage, use camera and
-            microphone, prevent device lock, use vibration or show full screen intents, update app
-            badges and settings on different android-based platforms.
+                microphone, prevent device lock, use vibration or show full screen intents, update app
+                badges and settings on different android-based platforms.
             </p>
             <p>Compared
                 <a href="./2025-07-24/permissions-max-25.7.1.txt">Max 25.7.1</a>,
@@ -197,11 +234,15 @@
             </p>
             <h3>Dependencies</h3>
             <p>The messenger uses open source libraries, some of them are well known and widely used
-               in Java (Apache commons, Apache http, FasterXML, org/JSON, LZ4-java, OkHTTP3, WebRTC,
-               etc). The list below contains specific or not so famous libraries:</p>
+                in Java (Apache commons, Apache http, FasterXML, org/JSON, LZ4-java, OkHTTP3, WebRTC,
+                etc). The list below contains specific or not so famous libraries:</p>
             <table>
                 <thead>
-                    <tr><td>Library</td><td>Description</td><td>Sources</td></tr>
+                    <tr>
+                        <td>Library</td>
+                        <td>Description</td>
+                        <td>Sources</td>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>
@@ -212,16 +253,28 @@
                         <td>A somewhat lower-level code (api, http, compression, etc)</td>
                         <td rowspan="6">N/A</td>
                     </tr>
-                    <tr><td>messages</td><td>Reused code from OK.ru messenger</td></tr>
-                    <tr><td>onechat</td><td>Utility classes for the reactions view</td></tr>
-                    <tr><td>tamtam</td><td>Some Russian messenger</td></tr>
+                    <tr>
+                        <td>messages</td>
+                        <td>Reused code from OK.ru messenger</td>
+                    </tr>
+                    <tr>
+                        <td>onechat</td>
+                        <td>Utility classes for the reactions view</td>
+                    </tr>
+                    <tr>
+                        <td>tamtam</td>
+                        <td>Some Russian messenger</td>
+                    </tr>
                     <tr>
                         <td>tracer</td>
                         <td>
                             OK-Tech service for profiling and failure reporting, closed source.
                         </td>
                     </tr>
-                    <tr><td>util</td><td>LZ4 compression support</td></tr>
+                    <tr>
+                        <td>util</td>
+                        <td>LZ4 compression support</td>
+                    </tr>
                     <tr>
                         <td colspan="3" class="label">Analytics</td>
                     </tr>
@@ -360,7 +413,7 @@ Script '/etc/openconnect/vpnc-script' returned error 127
             </p>
             <div class="row">
                 <div class="figure full">
-            <code># openconnect -s /path/to/scripts/vpnc-script https://somehost.com/?somekey</code>
+                    <code># openconnect -s /path/to/scripts/vpnc-script https://somehost.com/?somekey</code>
                 </div>
             </div>
             <p>
@@ -421,7 +474,7 @@ Script '/etc/openconnect/vpnc-script' returned error 127
             <p>Ok. Let's look in the logs:</p>
             <div class="row">
                 <div class="figure full">
-            <code>[root@JollaC2 defaultuser]# journalctl -r | grep -i vpn
+                    <code>[root@JollaC2 defaultuser]# journalctl -r | grep -i vpn
 ...
 JollaC2 connman-vpnd[2317]: Failed to open HTTPS connection to my-vpn.somevds.ch/?somesecretkey
 JollaC2 lipstick[2684]: [D] unknown:0 - VPN connection property changed: "State" QVariant(QString, "configuration") "/net/connman/vpn/connection/https___my_vpn_somevds_ch__somesecretkey_Sailfish OS_org" "Home"
@@ -478,6 +531,7 @@ JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
                     <code>include(`2025-06-10/openwrt-vlan.txt')</code>
                 </div>
             </div>
-    </article>
+        </article>
 </body>
+
 </html>

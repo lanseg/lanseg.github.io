@@ -62,7 +62,7 @@ main {
     font-size: 1.3rem;
 }
 
-.entry h2 a, a:visited {
+.entry h2 a, .entry h2 a:visited {
     text-decoration: none;
     color: inherit;
 }
