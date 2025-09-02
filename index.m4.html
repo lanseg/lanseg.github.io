@@ -29,11 +29,11 @@
             <div class="diff">
                 <div class="column">
                     <img width="522px" height="130px" alt="Image left">
-                    <div class="label">Caption left</div>
+                    <figcaption>Caption left</figcaption>
                 </div>
                 <div class="column">
                     <img width="522px" height="130px" alt="Image right">
-                    <div class="label">Caption right</div>
+                    <figcaption>Caption right</figcaption>
                 </div>
             </div>
             <table>
@@ -48,7 +48,58 @@
             </table>
             <code>Code</code>
         </article> -->
-
+        <article class="entry">
+            <time datetime="2025-09-02">2025-09-02</time>
+            <h2>
+                <a id="note_on_deobfuscation" href="#note_on_deobfuscation">
+                    A note on deobfuscation
+                </a>
+            </h2>
+            <div class="tags">
+                <div class="tag">java</div>
+                <div class="tag">android</div>
+                <div class="tag">reverse engineering</div>
+            </div>
+            <p>Using MAX messenger for an autopsy is a kind of special thing now and while the
+                messenger itself could be boring and unoriginal, the process could be still
+                educational.</p>
+            <h3>Comparing two versions</h3>
+            <p>The defpackage folder after the jadx still contains small files with random garbage
+                names and you typically cannot do much about it. Identifying files or classes
+                that are identical except for their names is simple, but the sheer volume makes
+                manual or semi-automated (diff between each two files) makes the approach
+                impractical. My approach, while still straightforward, was quite effective:
+            <ol>
+                <li>Load all files from both versions into memory: it was still less than
+                    several gigabytes. This step can be skipped if you have a quick enough SSD.</li>
+                <li>Calculate locality sensitive hash and group candidates based on the hash
+                    similarity.</li>
+                <li>Use a more precise similarity metric to confirm matches.</li>
+            </ol>
+            Comparison of the two defpackage folders with ~30000 files now takes roughly a minute,
+            but without LSH filtering and parallelizing the same task takes more than an hour.
+            <div class="row">
+                <figure>
+                    <code>undivert(`2025-09-02/find_matches.py')</code>
+                    <figcaption>
+                        <a href="2025-09-02/find_matches.py">find_matches.py</a> contents.
+                    </figcaption>
+                </div>
+            </div>
+            </p>
+            <h3>Hints on real class names</h3>
+            <p>Obfuscators can shuffle the code and randomize the names, yet the subtle clues that
+                reveal the true class and field names:
+            <div class="row">
+                <figure>
+                    <code>undivert(`2025-09-02/tostring_sample.txt')</code>
+                    <figcaption>toString method of the class "xn9" of Max 25.8.1</figcaption>
+                </figure>
+            </div>
+            <p>And "xn9.java" becomes "NetworkState.java", "a" becomes "isConnected" and so on. And
+                don't forget of name collisions when classes from different packages end up in the
+                same defpackage.</p>
+        </article>
         <article class="entry">
             <time datetime="2025-08-07">2025-08-07</time>
             <h2>
@@ -97,9 +148,9 @@
                 mounts workspace directory there.
 
             <div class="row">
-                <div class="figure full">
-                    <code>include(`2025-08-07/sfdk-config.txt')</code>
-                </div>
+                <figure>
+                    <code>undivert(`2025-08-07/sfdk-config.txt')</code>
+                </figure>
             </div>
             <p>
                 That should be enough: a somewhat optimized, somewhat stripped, complete python
@@ -107,18 +158,18 @@
                 yt-dlp.
             </p>
             <div class="row">
-                <div class="figure full">
-                    <code>include(`2025-08-07/python-3.13.6.spec')</code>
-                    <div class="label">
+                <figure>
+                    <code>undivert(`2025-08-07/python-3.13.6.spec')</code>
+                    <figcaption>
                         The RPM spec unpacks, compiles, and prepares a large package
-                    </div>
-                </div>
+                    </figcaption>
+                </figure>
             </div>
             </p>
             <h3>Part 2: yt-dlp</h3>
             <p>With the latest stable Python and pip, it's enough to just install it from pip:</p>
             <div class="row">
-                <div class="figure full">
+                <figure>
                     <code>defaultuser $ python3 -m pip install -U "yt-dlp[default]"</code>
                 </div>
             </div>
@@ -129,11 +180,13 @@
                 Sailfish apps.
             </p>
             <div class="row">
-                <div class="figure">
+                <figure class="fixed">
                     <img src="2025-08-07/vlc_maybe.jpg" width="657px" height="211px"
                         alt="Terminal with a long error log and vlc window without video" />
-                    <div class="label">Terminal where I started VLC with lots of error logs and broken app window</div>
-                </div>
+                    <figcaption>
+                        Terminal where I started VLC with lots of error logs and broken app window
+                    </figcaption>
+                </figure>
             </div>
         </article>
 
@@ -148,7 +201,9 @@
                 <div class="tag">messengers</div>
                 <div class="tag">android</div>
                 <div class="tag">reverse engineering</div>
+                <div class="tag">MAX</div>
             </div>
+            <p>Next: <a href="#max_part_2">MAX messenger, part 2: deeper dive</a></p>
             <p>
                 MAX messenger is a government-forced Russian messenger that is planned to replace
                 WhatsApp, Facebook messenger and other Western propaganda spreading machines. And
@@ -197,22 +252,22 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>d88c78a92d75f0319af1a95b59e3867e</td>
+                        <td>md5:d88c78a92d75f0319af1a95b59e3867e</td>
                         <td>23M</td>
                         <td>base.apk</td>
                     </tr>
                     <tr>
-                        <td>7ef573467d338b6411ceb80cd278f9cb</td>
+                        <td>md5:7ef573467d338b6411ceb80cd278f9cb</td>
                         <td>2.8M</td>
                         <td>split_config.mdpi.apk</td>
                     </tr>
                     <tr>
-                        <td>0d978dc58e071136cddc8a815311154f</td>
+                        <td>md5:0d978dc58e071136cddc8a815311154f</td>
                         <td>209K</td>
                         <td>split_config.ru.apk</td>
                     </tr>
                     <tr>
-                        <td>b3c75d266a1f1a55833cb9f052b9e075</td>
+                        <td>md5:b3c75d266a1f1a55833cb9f052b9e075</td>
                         <td>26M</td>
                         <td>split_config.x86_64.apk</td>
                     </tr>
@@ -394,7 +449,7 @@
                 has an openconnect client by default, but it doesn't have default vpn scripts:
             </p>
             <div class="row">
-                <div class="figure full">
+                <figure>
                     <code># openconnect  https://somehost.com/?somekey
 ...
 /bin/sh: /etc/openconnect/vpnc-script: not found
@@ -402,7 +457,7 @@ Script '/etc/openconnect/vpnc-script' returned error 127
 /bin/sh: /etc/openconnect/vpnc-script: not found
 Script '/etc/openconnect/vpnc-script' returned error 127
 ...</code>
-                </div>
+                </figure>
             </div>
             <p>
                 But ones from the
@@ -412,9 +467,9 @@ Script '/etc/openconnect/vpnc-script' returned error 127
                 script location:
             </p>
             <div class="row">
-                <div class="figure full">
+                <figure>
                     <code># openconnect -s /path/to/scripts/vpnc-script https://somehost.com/?somekey</code>
-                </div>
+                </figure>
             </div>
             <p>
                 Good thing that it works by itself, bad thing that it is not integrated with the UI,
@@ -428,19 +483,19 @@ Script '/etc/openconnect/vpnc-script' returned error 127
             <h3>Manual cookie</h3>
             <p>If connman cannot fetch the cookie, I should do it myself:</p>
             <div class="row">
-                <div class="figure full">
-                    <code>include(`2025-07-03/openconnect-logs.txt')</code>
-                </div>
+                <figure>
+                    <code>undivert(`2025-07-03/openconnect-logs.txt')</code>
+                </figure>
             </div>
             <p>And it worked! Just pay attention when copy-pasting text from the fingerterm, as it
                 will add spaces where the text was broken by the side of the screen.
             </p>
             <div class="row">
-                <div class="figure">
+                <figure class="fixed">
                     <img src="2025-07-03/entercookie.png" width="360px" height="331px"
                         alt="Sailfish OS OpenConnect configuration with cookie and certificate fingerprint" />
-                    <div class="label">Sailfish OS OpenConnect configuration</div>
-                </div>
+                    <figcaption>Sailfish OS OpenConnect configuration</figcaption>
+                </figure>
             </div>
             <p>Next time I'll try automate cookie update.</p>
         </article>
@@ -473,7 +528,7 @@ Script '/etc/openconnect/vpnc-script' returned error 127
             </p>
             <p>Ok. Let's look in the logs:</p>
             <div class="row">
-                <div class="figure full">
+                <figure>
                     <code>[root@JollaC2 defaultuser]# journalctl -r | grep -i vpn
 ...
 JollaC2 connman-vpnd[2317]: Failed to open HTTPS connection to my-vpn.somevds.ch/?somesecretkey
@@ -481,7 +536,7 @@ JollaC2 lipstick[2684]: [D] unknown:0 - VPN connection property changed: "State"
 JollaC2 connman-vpnd[2317]: getaddrinfo failed for host 'my-vpn.somevds.ch/?somesecretkey': Name or service not known
 JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
 ...</code>
-                </div>
+                </figure>
             </div>
             <p>
                 The culprit! It thinks that my whole url with a path and a parameter. A bit weird,
@@ -510,16 +565,16 @@ JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
                 my non-working router and saw a difference:
             </p>
             <div class="diff">
-                <div class="column figure">
+                <figure>
                     <img src="2025-06-10/dhcp-asus-dump.png" width="522px" height="130px"
                         alt="Wireshark output dump, working DHCP request">
-                    <div class="label">Working DHCP request</div>
-                </div>
-                <div class="column figure">
+                    <figcaption>Working DHCP request</figcaption>
+                </figure>
+                <figure>
                     <img src="2025-06-10/dhcp-banana-dump.png" width="522px" height="130px"
                         alt="Wireshark output dump, DHCP request that was ignored by provider">
-                    <div class="label">Ignored DHCP request</div>
-                </div>
+                    <figcaption>Ignored DHCP request</figcaption>
+                </figure>
             </div>
             <p>
                 So, the only difference was that the provider expected packet to be sent from a
@@ -527,9 +582,9 @@ JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
                 and everything worked.
             </p>
             <div class="row">
-                <div class="figure full">
-                    <code>include(`2025-06-10/openwrt-vlan.txt')</code>
-                </div>
+                <figure>
+                    <code>undivert(`2025-06-10/openwrt-vlan.txt')</code>
+                </figure>
             </div>
         </article>
 </body>

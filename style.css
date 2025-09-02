@@ -40,9 +40,9 @@ main {
 
 /* Shadow */
 .entry,
-.entry .figure,
+.entry figure,
 .entry .tags .tag,
-.entry table .label  {
+.entry table .label {
     box-shadow: 2px 2px 0 var(--shadow);
 }
 
@@ -62,7 +62,8 @@ main {
     font-size: 1.3rem;
 }
 
-.entry h2 a, .entry h2 a:visited {
+.entry h2 a,
+.entry h2 a:visited {
     text-decoration: none;
     color: inherit;
 }
@@ -101,11 +102,11 @@ main {
     justify-items: center;
 }
 
-.entry .figure {
+.entry figure {
     font-family: monospace;
 }
 
-.entry .figure {
+.entry figure {
     width: 100%;
     margin-top: 0.75rem;
     max-width: fit-content;
@@ -113,16 +114,20 @@ main {
     border: solid 1px var(--text);
 }
 
-.entry .figure.full {
+.entry figure {
     max-width: 100%;
 }
 
-.entry .figure img {
+.entry figure.fixed {
+    max-width: fit-content;
+}
+
+.entry figure img {
     width: 100%;
     height: auto;
 }
 
-.entry .figure .label {
+.entry figure figcaption {
     padding-left: 0.5rem;
 }
 
@@ -133,9 +138,11 @@ main {
     grid-template-columns: auto auto;
 }
 
-.entry .diff .column {
+.entry .diff figure {
     overflow: hidden;
     display: grid;
+    max-width: fit-content;
+    margin: 0px;
 }
 
 code {
@@ -167,4 +174,21 @@ table .label {
 
 table tbody tr {
     border-bottom: solid 1px var(--base);
+}
+
+.entry ul.key-value {
+    list-style-type: circle;
+    display: table;
+}
+
+.entry ul.key-value li {
+    display: table-row;
+}
+
+.entry ul.key-value li span {
+    display: table-cell;
+}
+
+.entry ul.key-value li span:first-child {
+    padding-right: 1rem;
 }
