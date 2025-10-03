@@ -1,0 +1,89 @@
+<article class="entry">
+    <time datetime="2025-08-07">2025-08-07</time>
+    <h2>
+        <a id="python-sailfish-rpm" href="#python-sailfish-rpm">
+            Newer Python and yt-dlp for the Sailfish OS
+        </a>
+    </h2>
+    <div class="tags">
+        <div class="tag">Sailfish OS</div>
+        <div class="tag">Python</div>
+        <div class="tag">yt-dlp</div>
+        <div class="tag">Jolla</div>
+    </div>
+    <p>
+        I moved to the Redeer C2, community edition with Sailfish OS. Not 100% voluntarily,
+        but not against my will either. My phone's touch screen just broke, and I needed a
+        replacement.
+    </p>
+    <p>
+        I still think that Sailfish OS is a nice system, and its user interface is the only
+        mobile Linux UI that is customer-ready. Unfortunately, the system lacks many common
+        applications, such as a video player (the music player exists and is okay for my
+        needs) or a YouTube client. So my plan was to download videos with yt-dlp and view \
+        them locally.
+    </p>
+    <h3>Part 1: <s>yt-dlp</s> Python</h3>
+    <p>
+        What could be simpler than downloading and running yt-dlp from
+        <a href="https://github.com/yt-dlp/yt-dlp">github</a> or installing from pip? But
+        my phone only had Python 3.8 (python3-base-3.8.18) and yt-dlp dropped support for it
+        almost a year ago (<a href="https://github.com/yt-dlp/yt-dlp/pull/11321">#1132</a>).
+    </p>
+    <p>
+        I was not looking for an easy way, so I decided to cross-compile python myself. But
+        I was not looking for a dirty way either, so I decided to create an RPM package that
+        could be installed independently from the original Python and removed later if
+        needed.
+    </p>
+    <h4>Building and packaging</h4>
+    <p>
+        Let's assume you have already followed the
+        <a href="https://docs.sailfishos.org/Tools/Sailfish_SDK/#all-download-options">
+            Sailfish SDK installation instructions
+        </a> and have sfdk installed. Make sure to do all the stuff within a workspace,
+        because Sailfish SDK uses a VirtualBox VM or Docker container as a build host and
+        mounts workspace directory there.
+
+    <div class="row">
+        <figure>
+            <code>undivert(`2025-08-07/sfdk-config.txt')</code>
+        </figure>
+    </div>
+    <p>
+        That should be enough: a somewhat optimized, somewhat stripped, complete python
+        distribution ready for common tasks including downloading youtube videos with
+        yt-dlp.
+    </p>
+    <div class="row">
+        <figure>
+            <code>undivert(`2025-08-07/python-3.13.6.spec')</code>
+            <figcaption>
+                The RPM spec unpacks, compiles, and prepares a large package
+            </figcaption>
+        </figure>
+    </div>
+    </p>
+    <h3>Part 2: yt-dlp</h3>
+    <p>With the latest stable Python and pip, it's enough to just install it from pip:</p>
+    <div class="row">
+        <figure>
+            <code>defaultuser $ python3 -m pip install -U "yt-dlp[default]"</code>
+    </div>
+    </div>
+    <p>If you are going to use yt-dlp, there is no need to create an RPM package.</p>
+    <h3>Part 3: VLC</h3>
+    <p>
+        Next time - VLC, probably. It works, but requires some styling to look like other
+        Sailfish apps.
+    </p>
+    <div class="row">
+        <figure class="fixed">
+            <img src="2025-08-07/vlc_maybe.jpg" width="657px" height="211px"
+                alt="Terminal with a long error log and vlc window without video" />
+            <figcaption>
+                Terminal where I started VLC with lots of error logs and broken app window
+            </figcaption>
+        </figure>
+    </div>
+</article>

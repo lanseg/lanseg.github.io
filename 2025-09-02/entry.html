@@ -1,0 +1,52 @@
+<article class="entry">
+    <time datetime="2025-09-02">2025-09-02</time>
+    <h2>
+        <a id="note_on_deobfuscation" href="#note_on_deobfuscation">
+            A note on deobfuscation
+        </a>
+    </h2>
+    <div class="tags">
+        <div class="tag">java</div>
+        <div class="tag">android</div>
+        <div class="tag">reverse engineering</div>
+    </div>
+    <p>Using MAX messenger for an autopsy is a kind of special thing now and while the
+        messenger itself could be boring and unoriginal, the process could be still
+        educational.</p>
+    <h3>Comparing two versions</h3>
+    <p>The defpackage folder after the jadx still contains small files with random garbage
+        names and you typically cannot do much about it. Identifying files or classes
+        that are identical except for their names is simple, but the sheer volume makes
+        manual or semi-automated (diff between each two files) makes the approach
+        impractical. My approach, while still straightforward, was quite effective:
+    <ol>
+        <li>Load all files from both versions into memory: it was still less than
+            several gigabytes. This step can be skipped if you have a quick enough SSD.</li>
+        <li>Calculate locality sensitive hash and group candidates based on the hash
+            similarity.</li>
+        <li>Use a more precise similarity metric to confirm matches.</li>
+    </ol>
+    Comparison of the two defpackage folders with ~30000 files now takes roughly a minute,
+    but without LSH filtering and parallelizing the same task takes more than an hour.
+    <div class="row">
+        <figure>
+            <code>undivert(`2025-09-02/find_matches.py')</code>
+            <figcaption>
+                <a href="2025-09-02/find_matches.py">find_matches.py</a> contents.
+            </figcaption>
+    </div>
+    </div>
+    </p>
+    <h3>Hints on real class names</h3>
+    <p>Obfuscators can shuffle the code and randomize the names, yet the subtle clues that
+        reveal the true class and field names:
+    <div class="row">
+        <figure>
+            <code>undivert(`2025-09-02/tostring_sample.txt')</code>
+            <figcaption>toString method of the class "xn9" of Max 25.8.1</figcaption>
+        </figure>
+    </div>
+    <p>And "xn9.java" becomes "NetworkState.java", "a" becomes "isConnected" and so on. And
+        don't forget of name collisions when classes from different packages end up in the
+        same defpackage.</p>
+</article>

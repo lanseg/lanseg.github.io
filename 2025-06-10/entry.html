@@ -1,0 +1,43 @@
+<article class="entry">
+    <time datetime="2025-06-10">2025-06-10</time>
+    <h2>
+        <a id="openwrt_greench" href="#openwrt_greench">
+            Configuring Green.ch DHCP on an OpenWRT router
+        </a>
+    </h2>
+    <div class="tags">
+        <div class="tag">OpenWRT</div>
+        <div class="tag">green.ch</div>
+        <div class="tag">DHCP</div>
+    </div>
+    <p>
+        I bought a Banana Pi BPI-R3 router, installed an OpenWRT firmware, but couldn't get
+        an IP address from my provider, green.ch. I tried to use the same MAC address, but
+        it didn't work so I had to go deeper and what is the simplest way to debug such an
+        issue? Compare the dumps and see the difference, of course. So I connected WAN port
+        of a working router to my laptop and looked at DHCP packets, then I did the same for
+        my non-working router and saw a difference:
+    </p>
+    <div class="diff">
+        <figure>
+            <img src="2025-06-10/dhcp-asus-dump.png" width="522px" height="130px"
+                alt="Wireshark output dump, working DHCP request">
+            <figcaption>Working DHCP request</figcaption>
+        </figure>
+        <figure>
+            <img src="2025-06-10/dhcp-banana-dump.png" width="522px" height="130px"
+                alt="Wireshark output dump, DHCP request that was ignored by provider">
+            <figcaption>Ignored DHCP request</figcaption>
+        </figure>
+    </div>
+    <p>
+        So, the only difference was that the provider expected packet to be sent from a
+        802.1q vlan with ID 10. I've added it to the network config (/etc/config/network)
+        and everything worked.
+    </p>
+    <div class="row">
+        <figure>
+            <code>undivert(`2025-06-10/openwrt-vlan.txt')</code>
+        </figure>
+    </div>
+</article>

@@ -1,0 +1,67 @@
+<article class="entry">
+    <time datetime="2025-07-03">2025-07-03</time>
+    <h2>
+        <a id="openconnect_sailfish_p2" href="#openconnect_sailfish_p2">
+            Making OpenConnect work on Sailfish OS, Part 2: Workaround
+        </a>
+    </h2>
+    <div class="tags">
+        <div class="tag">OpenConnect</div>
+        <div class="tag">Sailfish OS</div>
+        <div class="tag">VPN</div>
+    </div>
+    <p>
+        At least, I need to make a note on how to use openconnect even without gui. Sailfish
+        has an openconnect client by default, but it doesn't have default vpn scripts:
+    </p>
+    <div class="row">
+        <figure>
+            <code># openconnect  https://somehost.com/?somekey
+...
+/bin/sh: /etc/openconnect/vpnc-script: not found
+Script '/etc/openconnect/vpnc-script' returned error 127
+/bin/sh: /etc/openconnect/vpnc-script: not found
+Script '/etc/openconnect/vpnc-script' returned error 127
+...</code>
+        </figure>
+    </div>
+    <p>
+        But ones from the
+        <a href="https://gitlab.com/openconnect/vpnc-scripts">OpenConnect's git repository</a>
+        work well and copying them to /etc/openconnect directory solves an issue. Of course, if
+        you don't want to put self generated files to the system directories, you can set the
+        script location:
+    </p>
+    <div class="row">
+        <figure>
+            <code># openconnect -s /path/to/scripts/vpnc-script https://somehost.com/?somekey</code>
+        </figure>
+    </div>
+    <p>
+        Good thing that it works by itself, bad thing that it is not integrated with the UI,
+        so I had to try other options:
+    </p>
+    <h3>Automatic cookie</h3>
+    <p>
+        I expected that it will fetch the cookie and certificate from credentials, but it
+        didn't work, I kept getting those getaddrinfo error messages.
+    </p>
+    <h3>Manual cookie</h3>
+    <p>If connman cannot fetch the cookie, I should do it myself:</p>
+    <div class="row">
+        <figure>
+            <code>undivert(`2025-07-03/openconnect-logs.txt')</code>
+        </figure>
+    </div>
+    <p>And it worked! Just pay attention when copy-pasting text from the fingerterm, as it
+        will add spaces where the text was broken by the side of the screen.
+    </p>
+    <div class="row">
+        <figure class="fixed">
+            <img src="2025-07-03/entercookie.png" width="360px" height="331px"
+                alt="Sailfish OS OpenConnect configuration with cookie and certificate fingerprint" />
+            <figcaption>Sailfish OS OpenConnect configuration</figcaption>
+        </figure>
+    </div>
+    <p>Next time I'll try automate cookie update.</p>
+</article>

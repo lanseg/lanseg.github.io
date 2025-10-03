@@ -1,0 +1,6 @@
+public final String toString() {
+    return "NetworkState(isConnected=" + this.a 
+      + ", isValidated=" + this.b  
+      + ", isMetered=" + this.c 
+      + ", isNotRoaming=" + this.d + ')';
+}

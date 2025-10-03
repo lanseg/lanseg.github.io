@@ -1,0 +1,44 @@
+<article class="entry">
+    <time datetime="2025-06-13">2025-06-13</time>
+    <h2>
+        <a id="openconnect_sailfish_p1" href="#openconnect_sailfish_p1">
+            Making OpenConnect work on Sailfish OS
+        </a>
+    </h2>
+    <div class="tags">
+        <div class="tag">OpenConnect</div>
+        <div class="tag">Sailfish OS</div>
+        <div class="tag">VPN</div>
+        <div class="tag">connman</div>
+    </div>
+    <p>
+        I'm one of the rare owners of a Sailfish OS device. I had an original Jolla, a Sony
+        XPeria device with Sailfish and now I use Redeer C2. For me it is an only end-user
+        ready Linux mobile OS-es, but one thing kept bothering me - an OpenVPN (ocserv)
+        connection to my home network.
+    </p>
+    <p>
+        The problem was unclear: VPN connection kept flashing while trying to connect but
+        each attempt ended with "Connection problem" error. No notifications, no detailed
+        error messages. What is wrong with you? It worked on Android with the AnyConnect
+        client, it worked on a generic Linux with terminal client for "openconnect". And
+        the terminal client worked well even on the same Sailfish OS. What could be wrong?
+    </p>
+    <p>Ok. Let's look in the logs:</p>
+    <div class="row">
+        <figure>
+            <code>[root@JollaC2 defaultuser]# journalctl -r | grep -i vpn
+...
+JollaC2 connman-vpnd[2317]: Failed to open HTTPS connection to my-vpn.somevds.ch/?somesecretkey
+JollaC2 lipstick[2684]: [D] unknown:0 - VPN connection property changed: "State" QVariant(QString, "configuration") "/net/connman/vpn/connection/https___my_vpn_somevds_ch__somesecretkey_Sailfish OS_org" "Home"
+JollaC2 connman-vpnd[2317]: getaddrinfo failed for host 'my-vpn.somevds.ch/?somesecretkey': Name or service not known
+JollaC2 connman-vpnd[2317]: POST https://my-vpn.somevds.ch/?somesecretkey
+...</code>
+        </figure>
+    </div>
+    <p>
+        The culprit! It thinks that my whole url with a path and a parameter. A bit weird,
+        because my OpenConnect server uses camouflage mode and I don't want to disable it,
+        but connman doesn't know how to use it. I'll try to find a workaround next time.
+    </p>
+</article>
