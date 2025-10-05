@@ -1,0 +1,31 @@
+<article class="entry">
+    <time datetime="2025-10-02">2025-10-02</time>
+    <h2>
+        <a id="note_on_selfhosted_ai" href="#note_on_selfhosted_ai">
+            A note on selfhosted AI models
+        </a>
+    </h2>
+    <div class="tags">
+        <div class="tag">ollama</div>
+        <div class="tag">firejail</div>
+        <div class="tag">selfhosted</div>
+    </div>
+    <p>
+        It's always better to have a machine that is completely disconnected from the internet when
+        you work on some sensitive data. Configuring a firewall ruleset or a virtual machine with a
+        proper passthrough settings is also good option. But if it's not a top secret intelligence data,
+        there is a simpler option with an acceptable overhead and privacy level: firejail with a shared
+        network:
+    </p>
+    <h3>Quick example: firejail with network disabled</h3>
+    Ollama sandbox and client share a network, so they can only connect to each other:
+    <div class="row">
+        <figure>
+            <samp>undivert(`2025-10-02/ollama-run.txt')</samp>
+            <figcaption>
+                <a href="2025-10-02/ollama-run.txt">ollama-run.txt</a>
+                Installing ollama, no network restrictions here.
+            </figcaption>
+        </figure>
+    </div>
+</article>

@@ -145,7 +145,7 @@ main {
     margin: 0px;
 }
 
-code {
+.entry figure code, .entry figure samp {
     color: white;
     font-size: 0.95rem;
     background-color: var(--terminal);
@@ -153,6 +153,12 @@ code {
     display: block;
     white-space: pre;
     overflow-x: auto;
+}
+
+.entry figure .collapsed code, .entry figure .collapsed samp {
+    max-height: 200px;
+    overflow: hidden;
+    border: solid 1px red;
 }
 
 @media (max-width: 600px) {

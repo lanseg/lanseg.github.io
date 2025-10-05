@@ -4,7 +4,7 @@ index.html: index.m4.html
 watch:
 	while true; do \
 		inotifywait -e close_write *; \
-		rm -f index.html; \
+		rm -fv index.html; \
 		make index.html; \
 	done
 

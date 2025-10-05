@@ -1,0 +1,15 @@
+# Let ollama to save models into our home directory
+export OLLAMA_MODELS=/path/to/our/ml-models/ollama/
+
+# Installing models (if needed):
+path/to/ollama pull llava3 # Or llama3.2-vision, gemma3, etc
+
+# Start ollama in a sandbox with a custom sandbox name "ollama"
+firejail --noprofile --net=none --name=ollama path/to/ollama serve
+
+# Join an existing sandbox and sending a command to ollama
+firejail --noprofile --net=none --join=ollama \
+  curl -X POST http://localhost:11434/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{...}'
+
