@@ -37,6 +37,11 @@ with Pool(nprocs) as pool:
 
 print("Performing comparisons")
 
+def fileInfo(path):
+    return {
+        "path": path,
+        "size": os.path.getsize(path)
+    }
 
 def bestMatch(data):
     verB = data[0]
@@ -58,8 +63,10 @@ for verB, verA, rate in matches:
     result.append(
         {
             "rate": rate,
-            "verA": verA,
-            "verB": verB,
+            "versions": [
+                fileInfo(verA),
+                fileInfo(verB),
+            ]
         }
     )
 

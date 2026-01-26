@@ -1,0 +1,31 @@
+networks:
+  ollama-local:
+    driver: bridge
+    # internal: true
+  external:
+    driver: bridge
+
+services:
+  ollama:
+    image: ollama/ollama:rocm
+    environment:
+      - OLLAMA_DEBUG=1
+      - OLLAMA_NUM_THREADS=15 # nproc - 1
+    volumes:
+      - ./ollama_home:/root/.ollama
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    networks:
+      - ollama-local
+
+  gateway:
+    image: alpine/socat:latest
+    command: "TCP-LISTEN:11434,fork,reuseaddr TCP:ollama:11434"
+    depends_on:
+      - ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - ollama-local
+      - external

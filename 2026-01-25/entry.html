@@ -1,0 +1,76 @@
+<article class="entry">
+    <time datetime="2026-01-25">2026-01-25</time>
+    <h2>
+        <a id="note_on_selfhosted_ai_integration" href="#note_on_selfhosted_ai_integration">
+            A note on integrating self-hosted AI models integration
+        </a>
+    </h2>
+    <div class="tags">
+        <div class="tag">ollama</div>
+        <div class="tag">firejail</div>
+        <div class="tag">docker</div>
+        <div class="tag">selfhosted</div>
+    </div>
+    <p>Prev: <a href="#note_on_selfhosted_isolated_ai">Note on self-hosted isolated AI</a></p>
+    <p>
+        It's quite easy to isolate an Ollama instance: just run it inside a firejail sandbox with
+        network disabled. If you need a script that interacts with the model, you can run it in
+        the same sanbox wit the "--join" flag. But what if you want to make Ollama available for
+        other applications like IDEs or agent, while keep it isolated from the internet?
+    </p>
+    <h3>Docker</h3>
+    The simplest way to achieve this is to run Ollama inside a docker container with an internal
+    network (that will block internet access by default) and create a socat gateway which can see
+    both the internal and host networks.
+    <div class="row">
+        <figure>
+            <samp>undivert(`2026-01-25/docker-compose.yaml')</samp>
+            <figcaption>
+                <a href="2026-01-25/docker-compose.yaml">docker-compose.yaml</a>
+                Docker compose to run an isolated Ollama instance.
+            </figcaption>
+        </figure>
+    </div>
+    <h3>Firejail with a limited network access</h3>
+    <p>Less overhead, but more manual setup and it also requires extra permissions to apply the firewall
+    configurations. While the firejail profile stays simple, you will also need a netfilter ruleset
+    and the script that sets up and removes a bridge interface.</p>
+    <div class="row">
+        <figure>
+            <samp>OLLAMA_HOST=10.10.20.2 firejail --profile=./ollama.profile ./ollama serve</samp>
+            <figcaption>Starting ollama: same as before, but with the custom host</figcaption>
+        </figure>
+    </div>
+    <p></p>
+    <p>The script is not universal, so pay attention to what you paste and check if it interferes
+    with your existing network.</p>
+   <div class="row">
+        <figure>
+            <samp>undivert(`2026-01-25/bridge.sh')</samp>
+            <figcaption>
+                <a href="2026-01-25/bridge.sh">bridge.sh</a>
+                Script to set up/clean up a bridge and packet forwarding.
+            </figcaption>
+        </figure>
+    </div>
+    A strict firejail profile: use custom home folder and custom network configuration:
+    <div class="row">
+        <figure>
+            <samp>undivert(`2026-01-25/ollama.profile')</samp>
+            <figcaption>
+                <a href="2026-01-25/ollama.profile">ollama.profile</a>
+                Firejail profile to run an isolated Ollama instance.
+            </figcaption>
+        </figure>
+    </div>
+    Netfilter profile: block everything except the default ollama port:
+    <div class="row">
+        <figure>
+            <samp>undivert(`2026-01-25/ollama.netfilter')</samp>
+            <figcaption>
+                <a href="2026-01-25/ollama.netfilter">ollama.netfilter</a>
+                Netfilter ruleset for the firejail profile.
+            </figcaption>
+        </figure>
+    </div>
+</article>
