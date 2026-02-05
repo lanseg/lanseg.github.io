@@ -1,0 +1,59 @@
+<article class="entry">
+    <time datetime="2026-02-05">2026-02-05</time>
+    <h2>
+        <a id="note_on_epstein_files" href="#note_on_epstein_files">
+            A note on analyzing Epstein files
+        </a>
+    </h2>
+    <div class="tags">
+        <div class="tag">epstein</div>
+        <div class="tag">face recognition</div>
+        <div class="tag">pdf</div>
+    </div>
+    <p>
+        So, the FBI released another bunch of the Epstein files: hundreds of the PDF documents with
+        the emails, flight logs, chat extracts and photos - too much for me to handle, especially
+        when I don't have a powerful GPU that can run advanced multimodal LLMs.
+    </p>
+    <p>
+        But I have plenty of space and these preparations were really helpful:
+    <ol>
+        <li>Split PDF documents into text and pictures.</li>
+        <li>Detect faces: find photos with faces.</li>
+        <li>Generate vectors for faces and cluster them.</li>
+    </ol>
+    <table>
+        <thead>
+            <tr class="label">
+                <th>Step</th>
+                <th>Number of files</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Splitting PDFs</td>
+                <td>346485 PDFs → 557466 pngs</td>
+                <td>~10 minutes</td>
+            </tr>
+            <tr>
+                <td>Finding faces</td>
+                <td>557466 pngs -> 1022 pngs with faces</td>
+                <td>~16 hours</td>
+            </tr>
+            <tr>
+                <td>Clustering faces</td>
+                <td>1022 pngs -> 92 clusters</td>
+                <td>~3 minutes</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>Both face detection and clustering are straightforward and could be done by simply using
+    <a href="https://pypi.org/project/face-recognition/">face_recognition (pypi)</a> and
+    <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN from scikit-learn</a>.
+    The only tuning I did was adding <samp>n_jobs=-1</samp> to let DBSCAN use all the CPU cores.
+    </p>
+    <p>
+        The scripts: <a href="2026-02-05/split_pdf.py">split_pdf.py</a>, <a href="2026-02-05/find_faces.py">find_faces.py</a>.
+    </p>
+</article>
