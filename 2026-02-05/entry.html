@@ -1,5 +1,5 @@
 <article class="entry">
-    <time datetime="2026-02-05">2026-02-05</time>
+    <time datetime="2026-02-05">2026-02-05</time>, <time datetime="2026-04-01">2026-04-01</time>
     <h2>
         <a id="note_on_epstein_files" href="#note_on_epstein_files">
             A note on analyzing Epstein files
@@ -53,7 +53,22 @@
     <a href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html">DBSCAN from scikit-learn</a>.
     The only tuning I did was adding <samp>n_jobs=-1</samp> to let DBSCAN use all the CPU cores.
     </p>
+    <h3>Initial issues with the scripts</h3>
+    <p>The first version of the script was not very good. It had some obvious things that could be
+    considered issues, like copying files instead of symlinking, but I had reasons to do it that
+    way. But there were things I didn't notice:</p>
+    <ul>
+        <li>Same person appears multiple times on one picture: mirrors,
+            newspaper and document scans</li>
+        <li>Too many false positives, when some random spots were mistaken for faces</li>
+        <li>Keeping findings in the JSONs made it difficult to analyze and serve the results</li>
+    </ul>
+    So now I have a better version: instead of copying files and writing the metadata to JSONs,
+    it stores those in an SQLite database, without copying or symlinking the files. I use the
+    database to make queries like "what people appear on the same photos as this person?"
     <p>
-        The scripts: <a href="2026-02-05/split_pdf.py">split_pdf.py</a>, <a href="2026-02-05/find_faces.py">find_faces.py</a>.
+        The scripts: <a href="2026-02-05/split_pdf.py">split_pdf.py</a>,
+        <a href="2026-02-05/find_faces.py">find_faces.py</a>.
+        <a href="2026-02-05/find_faces.py">db.py</a>.
     </p>
 </article>

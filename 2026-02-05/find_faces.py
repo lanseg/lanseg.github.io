@@ -1,69 +1,49 @@
-"""Find faces in the images and group images by person.
-
-Arguments:
-    source: directory with the photos. Script will browse it recursively and find all image files.
-    target: directory with the clustering results. For each person there will be a subdirectory
-        with the photos of that person, and a metadata.json file with the information about the
-        original file and the location of the face in it.
-    known_images: optional text file with the list of the images to process. If not provided, all
-    images in the source directory will be processed.
-"""
-import collections
-import json
 import logging
 import mimetypes
-import os
 import pathlib
-import shutil
 import sys
-from multiprocessing import Pool, cpu_count
-from PIL import Image, ImageDraw
 
-import face_recognition
+from multiprocessing import cpu_count
+
+
+import cv2
+from concurrent.futures import ThreadPoolExecutor
+from insightface.app import FaceAnalysis
+from sklearn.metrics.pairwise import euclidean_distances
 import numpy as np
-from sklearn.cluster import DBSCAN
+import hdbscan
+import db
 
-logging.basicConfig(
-    format="%(asctime)s %(levelname)s %(name)s  %(message)s", level=logging.INFO
-)
+logging.basicConfig(format="%(asctime)s %(levelname)s %(name)s  %(message)s", level=logging.INFO)
+app = FaceAnalysis(providers=['CPUExecutionProvider'])
+app.prepare(ctx_id=0, det_size=(640, 640))
 logger = logging.getLogger(__name__)
-nprocs = cpu_count()
-
-Face = collections.namedtuple("Face", ["enc", "img", "location"])
+nprocs = cpu_count() // 2
 
 def is_image(fname: pathlib.Path) -> bool:
     mime, _ = mimetypes.guess_type(fname)
     return mime is not None and mime.startswith("image/")
 
+def compare_faces(all_faces):
+    enc_faces = np.vstack([f.enc for f in all_faces])
+    dist_matrix = euclidean_distances(enc_faces, enc_faces).astype(np.float64)
+    for i in range(len(all_faces)):
+        for j in range(i + 1, len(all_faces)):
+            if all_faces[i].img == all_faces[j].img:
+                dist_matrix[i, j] = 999.0
+                dist_matrix[j, i] = 999.0
+    return dist_matrix
 
-def extract_faces(img: pathlib.Path) -> list[Face]:
-    image = face_recognition.load_image_file(img)
-    face_locations = face_recognition.face_locations(image)
-    faces = face_recognition.face_encodings(image, face_locations)
-    logger.info("found %d faces in %s", len(faces), img)
-    return [Face(face, img, location) for face, location in zip(faces, face_locations)]
-
-def mark_face(img: pathlib.Path, pos: list[int]):
-    image = Image.open(img)
-    draw = ImageDraw.Draw(image)
-    draw.rectangle(xy=[(pos[3], pos[0]), (pos[1], pos[2])])
-    image.save(img)
-
-def copy_resolve_duplicates(imgs: list[pathlib.Path], target_dir: pathlib.Path) -> dict[pathlib.Path, str]:
-    seen = set()
-    actual_names = {}
-    for img in imgs:
-        counter = 0
-        actual_name = f"{img.name}"
-        while actual_name in seen:
-            actual_name = f"{img.stem}_{counter}{img.suffix}"
-            counter += 1
-        shutil.copy(img, target_dir / actual_name)
-        actual_names[img] = actual_name
-        seen.add(actual_name)
-    return actual_names
+def extract_faces(image_path: pathlib.Path) -> list[db.Face]:
+    img = cv2.imread(image_path)
+    if img is None:
+        return []
+    faces = app.get(img)
+    logger.info("found %d faces in %s", len(faces), image_path)
+    return [db.Face(face.normed_embedding, image_path, list(map(int, face.bbox)), None) for face in faces]
 
 def main(source, target, known_images):
+    dbc = db.DB(target)
     images = []
     if known_images:
         logger.info("loading images from file %s", known_images)
@@ -77,45 +57,49 @@ def main(source, target, known_images):
         logger.info("no images found, stopping")
         return
 
-    all_faces = []
-    with Pool(nprocs) as pool:
-        for fimg in pool.map(extract_faces, images):
-            all_faces.extend(fimg)
+    all_faces = dbc.load()
 
+    known_faces = set([f.img for f in all_faces])
+    to_check = set(images) - known_faces
+    logger.info("known files %d, files to check for faces: %4d", len(known_faces), len(to_check))
+
+    with ThreadPoolExecutor(nprocs) as pool:
+        for fimg in pool.map(extract_faces, to_check):
+            all_faces.extend(fimg)
     logger.info("found %d faces in %d files", len(all_faces), len(images))
     if not all_faces:
         logger.info("No faces found in any images.")
         return
 
+    if to_check:
+        new_faces = [f for f in all_faces if f.img in to_check]
+        logger.info("adding missing %d faces to the base", len(new_faces))
+        dbc.save(new_faces)
+
+    logger.info("calculating distances between faces")
+    dist_matrix = compare_faces(all_faces)
+
     logger.info("grouping the files by face")
-    enc_faces = np.vstack([f.enc for f in all_faces])
+    labels = hdbscan.HDBSCAN(
+        cluster_selection_epsilon=0.65,
+        cluster_selection_method='eom',
+        min_cluster_size=3,
+        core_dist_n_jobs=-1,
+        min_samples=2,
+        metric='precomputed'
+    ).fit_predict(dist_matrix)
+    del dist_matrix
+    logger.info("found %d groups", len(set(labels)))
 
-    cluster = DBSCAN(eps=0.5, min_samples=1, metric="euclidean", algorithm="ball_tree", leaf_size=40, n_jobs=-1).fit(enc_faces)
+    labeled = []
+    for label, face in zip(labels, all_faces):
+        face_list = list(face)
+        face_list[-1] = int(label + 1)
+        labeled.append(db.Face(*face_list))
+    all_faces = labeled
 
-    groups = collections.defaultdict(list)
-    for label, face in zip(cluster.labels_, all_faces):
-        if label == -1:
-            continue
-        groups[label].append(face)
-    logger.info("found %d groups", len(groups))
-
-    image_to_face = collections.defaultdict(list)
-    for label, faces in groups.items():
-        person_dir = target / f"person_{label:06d}"
-        os.makedirs(person_dir, exist_ok=True)
-        actual_names = copy_resolve_duplicates([f.img for f in faces], person_dir)
-
-        metadata = collections.defaultdict(list)
-        for face in faces:
-            image_to_face[str(face.img)].append(int(label))
-            name = actual_names[face.img]
-            metadata[name].append({
-                "origin": str(face.img),
-                "location": list(map(int, face.location))
-            })
-            mark_face(person_dir / name, face.location)
-        (person_dir / "metadata.json").write_bytes(json.dumps(metadata).encode("utf-8"))
-    (target / "metadata.json").write_bytes(json.dumps(image_to_face).encode("utf-8"))
+    logger.info("saving %d labeled faces to the database", len(all_faces))
+    dbc.save(all_faces)
 
 
 if __name__ == "__main__":
