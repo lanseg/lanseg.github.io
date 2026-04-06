@@ -18,7 +18,7 @@ body {
 header {
     color: var(--text);
     background-color: var(--base);
-    padding: 2rem 1rem;
+    padding-top: 2rem;
     text-align: center;
 }
 
@@ -36,6 +36,23 @@ header a.active {
     font-weight: bold;
 }
 
+nav {
+    max-width: 800px;
+    margin: 0.5rem auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+nav a {
+    flex: 1 1 0px;
+}
+
+nav a:visited {
+    color: inherit;
+
+}
+
 main {
     max-width: 800px;
     margin: 0.5rem auto;
@@ -43,11 +60,16 @@ main {
 }
 
 /* Shadow */
+.tags .tag,
 .entry,
 .entry figure,
-.entry .tags .tag,
 .entry table .label {
     box-shadow: 2px 2px 0 var(--shadow);
+}
+
+.tag.active {
+    box-shadow: none;
+    border: solid 2px black;;
 }
 
 .entry {
@@ -82,18 +104,23 @@ main {
     font-size: 1rem;
 }
 
-.entry .tags {
+.tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem;
 }
 
-.entry .tags .tag {
+.tags .tag {
+    background: white;
     padding: 0.2rem 0.5rem;
     margin-right: 0.4rem;
     font-size: 0.75rem;
     font-family: monospace;
     border: solid 1px var(--text);
+}
+
+.tags .tag:last-of-type {
+    margin-right: 0;
 }
 
 .entry p {

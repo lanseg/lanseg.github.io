@@ -16,59 +16,13 @@
             <a href="mailto:lanseg@proton.me">lanseg@proton.me</a> -
             <a href="https://github.com/lanseg">github.com/lanseg</a>
         </p>
-        <p>
-            <a class="active" href="index.html">featured</a> -
-            <a href="diary.html">diary</a> -
-            <a href="about.html">about</a>
-        </p>
     </header>
+    <nav class="tags">
+        <a class="tag active" href="index.html">diary</a>
+        <a class="tag" href="projects.html">projects</a>
+        <a class="tag" href="about.html">about</a>
+    </nav>
     <main>
-        <article class="entry">
-            <time datetime="2025-06-10">2026-04-12</time>
-            <h2><a id="mapsearch" href="#mapsearch">Selecting buildings on tiles</a></h2>
-            <div class="tags">
-                <div class="tag">fgf</div>
-                <div class="tag">tiles</div>
-                <div class="tag">triangulation</div>
-            </div>
-            <p>TODO: One paragraph about the project, tiling and distortion</p>
-            <p>
-                But user won't draw all geometries from the tile, only some of them - that's why I
-                decided to build a feature vector for all possible object combination. Of course,
-                the idea of generating all 2<sup>n</sup> subsets looked way too slow and I made an
-                assumption: user will most likely draw only neighboring objects (exceptions?).
-            </p>
-            <p>
-                But how to select a neighbor? I decided not to go with KNN or simple Cartesian
-                distance, because it requires either a fixed distance or fixed K and it wont work
-                when the tile is too sparse (farm with a house and a shed) or too dense (old city).
-                First thing that came to my mind were Voronoi diagrams,
-            </p>
-            <p>TODO: When simple triangulation fails</p>
-            <p>TODO: Other exceptions</p>
-            <p>TODO: Conclusion - what benefits I got</p>
-            <div class="diff">
-                <div class="column">
-                    <img width="522px" height="130px" alt="Image left">
-                    <figcaption>Caption left</figcaption>
-                </div>
-                <div class="column">
-                    <img width="522px" height="130px" alt="Image right">
-                    <figcaption>Caption right</figcaption>
-                </div>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <td class="label">Header</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Row</td></tr>
-                </tbody>
-            </table>
-            <code>Code</code>
-        </article>
         <!-- <article class="entry">
             <time datetime="2025-06-10">2025-06-12</time>
             <h2><a id="TITLEID" href="#TITLEID">Title</a></h2>
@@ -86,6 +40,12 @@
                     <figcaption>Caption right</figcaption>
                 </div>
             </div>
+            <div class="row">
+                <figure>
+                    <code>Code</code>
+                    <figcaption>figure caption</figcaption>
+                </figure>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -98,6 +58,15 @@
             </table>
             <code>Code</code>
         </article> -->
+        include(`2026-02-05/entry.html')
+        include(`2026-01-25/entry.html')
+        include(`2025-10-02/entry.html')
+        include(`2025-09-02/entry.html')
+        include(`2025-08-07/entry.html')
+        include(`2025-07-24/entry.html')
+        include(`2025-07-03/entry.html')
+        include(`2025-06-13/entry.html')
+        include(`2025-06-10/entry.html')
 </body>
 
 </html>
