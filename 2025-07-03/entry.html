@@ -11,7 +11,7 @@
         <div class="tag">VPN</div>
     </div>
     <p>
-        At least, I need to make a note on how to use openconnect even without gui. Sailfish
+        At least, I need to make a note on how to use openconnect even without a GUI. Sailfish
         has an openconnect client by default, but it doesn't have default vpn scripts:
     </p>
     <div class="row">
@@ -43,8 +43,9 @@ Script '/etc/openconnect/vpnc-script' returned error 127
     </p>
     <h3>Automatic cookie</h3>
     <p>
-        I expected that it will fetch the cookie and certificate from credentials, but it
-        didn't work, I kept getting those getaddrinfo error messages.
+        I expected it to fetch the cookie and certificate from the server, after a
+        login/password authentication, but it didn't work and I kept getting those
+        getaddrinfo error messages.
     </p>
     <h3>Manual cookie</h3>
     <p>If connman cannot fetch the cookie, I should do it myself:</p>
@@ -63,5 +64,5 @@ Script '/etc/openconnect/vpnc-script' returned error 127
             <figcaption>Sailfish OS OpenConnect configuration</figcaption>
         </figure>
     </div>
-    <p>Next time I'll try automate cookie update.</p>
+    <p>Next time I'll try to automate cookie update.</p>
 </article>

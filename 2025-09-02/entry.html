@@ -17,8 +17,8 @@
     <p>The defpackage folder after the jadx still contains small files with random garbage
         names and you typically cannot do much about it. Identifying files or classes
         that are identical except for their names is simple, but the sheer volume makes
-        manual or semi-automated (diff between each two files) makes the approach
-        impractical. My approach, while still straightforward, was quite effective:
+        manual or semi-automated (diff between each two files) approach impractical.
+        My approach, while still straightforward, was quite effective:
     <ol>
         <li>Load all files from both versions into memory: it was still less than
             several gigabytes. This step can be skipped if you have a quick enough SSD.</li>
@@ -47,6 +47,6 @@
         </figure>
     </div>
     <p>And "xn9.java" becomes "NetworkState.java", "a" becomes "isConnected" and so on. And
-        don't forget of name collisions when classes from different packages end up in the
+        don't forget about name collisions when classes from different packages end up in the
         same defpackage.</p>
 </article>
