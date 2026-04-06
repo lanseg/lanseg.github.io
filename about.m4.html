@@ -18,7 +18,7 @@
         </p>
     </header>
     <nav class="tags">
-        <a class="tag" href="index.html">diary</a>
+        <a class="tag" href="index.html">notes</a>
         <a class="tag" href="projects.html">projects</a>
         <a class="tag active" href="about.html">about</a>
     </nav>
@@ -30,15 +30,19 @@
             </div>
             <h3>What this site is about</h3>
             <p>Simple and complex technical notes: stuff that I don't want to forget in case I will
-               need it later. Mostly related to open source, self-hosted solutions and a bit of ML.
-               Full list of topics and their statuses is in the
-               <a href="#myprojects">next section</a>.
+                need it later. Mostly related to open source, self-hosted solutions and a bit of ML.
+                Full list of topics and their statuses is in the
+                <a href="#myprojects">next section</a>.
+            <ul>
+                <li><a href="index.html">notes</a> - for the short notes and snippets, more like a dev diary</li>
+                <li><a href="projects.html">projects</a> - for the more complex posts about my pet projects</li>
+            </ul>
             </p>
             <h3>What this site is not about</h3>
             <p>The site is not about hacking, cybersecurity, OSINT or similar topics. Even if the
-            content might look like it is, the intent is always different: why cannot I connect to
-            the internet? Is the government-forced messenger really that bad? How can I apply ML to
-            organize the documents? How can I use a remote Android VM for debugging and development?
+                content might look like it is, the intent is always different: why cannot I connect to
+                the internet? Is the government-forced messenger really that bad? How can I apply ML to
+                organize the documents? How can I use a remote Android VM for debugging and development?
             </p>
         </article>
         <article class="entry">
@@ -50,20 +54,20 @@
                 Here I track pet projects and ideas so I don't forget them. I haven't touched
                 many of them, but I still want to keep them here, because I might want to return
                 to them later. Only three of them are currently active:
-                <ul>
-                    <li>DeMAX - reverse engineering and analysing the MAX messenger.</li>
-                    <li>
-                        Unnamed GIS project - finding a place by sketch or description. I tried
-                         the computational geometry methods, but it was too slow so now I'm working
-                         on adding a bit of machine learning and building a vector tile index.
+            <ul>
+                <li>DeMAX - reverse engineering and analysing the MAX messenger.</li>
+                <li>
+                    Unnamed GIS project - finding a place by sketch or description. I tried
+                    the computational geometry methods, but it was too slow so now I'm working
+                    on adding a bit of machine learning and building a vector tile index.
 
-                    </li>
-                    <li>
-                        Unnamed ML project, maybe I'll call it "thatsaslop" - a person must guess an
-                        AI-generated content (text, images, etc) among the man-made ones and vice
-                        versa.
-                    </li>
-                </ul>
+                </li>
+                <li>
+                    Unnamed ML project, maybe I'll call it "thatsaslop" - a person must guess an
+                    AI-generated content (text, images, etc) among the man-made ones and vice
+                    versa.
+                </li>
+            </ul>
             </p>
             <h2>Projects and their statuses</h2>
             <p>
@@ -100,7 +104,7 @@
                     <tr>
                         <td>MAX messenger traffic</td>
                         <td>I want to run it through the owasp zap or a similar tool to see what it
-                             sends to its base</td>
+                            sends to its base</td>
                         <td>planned</td>
                         <td>...</td>
                     </tr>
@@ -167,7 +171,8 @@
         <article class="entry">
             <h2><a id="aboutpage" href="#aboutpage">About the page</a></h2>
             <div class="tags">
-                <div class="tag">about</div><div class="tag">m4</div>
+                <div class="tag">about</div>
+                <div class="tag">m4</div>
             </div>
             <p>
                 The page looks like this on purpose: no scripts, no pictures, no styles, just some
@@ -175,13 +180,13 @@
                 and runs the Makefile to generate the HTML files on change.
             </p>
             <div class="row">
-                    <figure>
-                        <samp>undivert(`Makefile')</samp>
-                        <figcaption>
-                            <a href="Makefile">Makefile</a> contents.
-                        </figcaption>
-                    </figure>
-                </div>
+                <figure>
+                    <samp>undivert(`Makefile')</samp>
+                    <figcaption>
+                        <a href="Makefile">Makefile</a> contents.
+                    </figcaption>
+                </figure>
+            </div>
         </article>
     </main>
 </body>
