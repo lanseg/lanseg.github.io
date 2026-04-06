@@ -32,6 +32,10 @@ header p {
     font-weight: 300;
 }
 
+header a.active {
+    font-weight: bold;
+}
+
 main {
     max-width: 800px;
     margin: 0.5rem auto;
