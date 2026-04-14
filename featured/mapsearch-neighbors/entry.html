@@ -1,0 +1,118 @@
+<article class="entry">
+    <time datetime="2025-06-10">2026-04-12</time>
+    <h2><a id="mapsearch" href="#mapsearch">Selecting buildings on tiles</a></h2>
+    <div class="tags">
+        <div class="tag">fgf</div>
+        <div class="tag">tiles</div>
+        <div class="tag">triangulation</div>
+    </div>
+    <p>
+        TL;DR: I'm working on a map search project, where you can find a place in the world by a
+        vector drawing or raster sketch or even textual description (maybe in the far future). Now
+        I'm exploring ways to generate feature vectors for indexing.
+        Why not graph neural networks or embeddings? I have only basic integrated GPU, so I want to
+        try something simple first. Anyway, embeddings and graph networks or just feature vectors,
+        the workflow will be the following:
+    </p>
+    <div class="row">
+        <samp>
+            <ul>
+                <li>Index:  OSM → DuckDB → Tiles → Vectors → Index </li>
+                <li>Search: Drawing → Vectors → Tiles (from index) → Refine with computational geometry</li>
+            </ul>
+        </samp>
+    </div>
+    <p><a href="github.com/lanseg/fgf-ml">Some sources here</a>.</p>
+    <h3>Selection</h3>
+    <p>
+        User won't draw all geometries from the tile, only some of them - that's why I
+        decided to build a feature vector for all possible object combinations. Of course,
+        the idea of generating all 2<sup>n</sup> subsets looked way too slow and I made an
+        assumption: user will most likely draw only neighboring objects (exceptions?).
+    </p>
+    <p>
+        But how to select a neighbor? I decided not to go with KNN or simple Cartesian
+        distance, because it requires either a fixed distance or fixed K and it won't work
+        when the tile is too sparse (farm with a house and a shed) or too dense (old city).
+        First thing that came to my mind was Voronoi diagrams,
+    </p>
+    <div class="row">
+        <figure class="fixed">
+            <img src="featured/mapsearch-neighbors/ok_grid.png" width="360px"
+                alt="Group of buildings and their Delaunay triangulation" />
+            <figcaption>Group of buildings and their Delaunay triangulation</figcaption>
+        </figure>
+    </div>
+
+    <h3>When simple triangulation is not enough</h3>
+    <p>In some cases triangulation doesn't help - for example, when there are many small buildings
+        in the area - every building still has way too many neighbors. And that raises another
+        question: how to reduce the number of neighbors without losing too much information?
+        For now, I decided to try three most obvious methods: unary_union, unary_union with
+        adding a buffer and limiting the number of neighbors.
+    </p>
+    <div class="row">
+        <figure class="fixed">
+            <img src="featured/mapsearch-neighbors/manynodes_grid_fixed.png" width="360px"
+                alt="Result of merging neighboring buildings" />
+            <figcaption>
+                <a href="https://osm.org/go/0CFl~5mrw">Warehouse in Meyrin</a>:
+                buildings stay side by side and can be merged by unary_union
+            </figcaption>
+        </figure>
+    </div>
+    <div class="row">
+        <figure class="fixed">
+            <img src="featured/mapsearch-neighbors/manynodes_buffer.png" width="360px"
+                alt="Small buildings clustered by using a buffer and unary_union" />
+            <figcaption>
+                <a href="https://osm.org/go/0CcIg9UJ">Port (near Biel/Bienne)</a>:
+                for small distinct buildings we can add a buffer before merging
+            </figcaption>
+        </figure>
+    </div>
+    <p>Which method to use? All of them, depending on how well the previous method worked:
+        if simple triangulation fails, try unary_union merging. If simple unary_union fails, try
+        adding a buffer and then merging. If all of them fail, then just limit the number of
+        objects in a group when selecting the neighbors.
+    </p>
+    <h3>Other methods I tried</h3>
+    <p>I also tried to use the DBSCAN-based clustering methods: clustering based on centroids or
+        spatial distance. Unfortunately, it took me too much time to find the somewhat good
+        parameters and most of the results looked like the one on the image below:
+    </p>
+    <div class="row">
+        <figure class="fixed">
+            <img src="featured/mapsearch-neighbors/dbscan_problems.png" width="360px"
+                alt="results of a poor DBSCAN parameter selection" />
+            <figcaption>
+                <a href="https://osm.org/go/0CcIg9UJ">Port (near Biel/Bienne)</a>:
+                results of a poor DBSCAN parameter selection
+            </figcaption>
+        </figure>
+    </div>
+
+    <h3>Summary</h3>
+    <p>The final code looks like this: reduce number of buildings by joining adjacent or very close
+        ones, then generate all possible combinations of those buildings.</p>
+    <div class="row">
+        <figure>
+            <code>undivert(`featured/mapsearch-neighbors/grouping_snippet.py')</code>
+            <figcaption>
+                <a href="featured/mapsearch-neighbors/grouping_snippet.py">grouping_snippet.py</a>
+                Snippets for grouping and triangulation.
+            </figcaption>
+        </figure>
+    </div>
+    <p>
+        In the end, I was able to reduce the number of buildings and variants to an acceptable
+        level. For example, the <a href="https://osm.org/go/0CcIzqY0--">area around Biel/Bienne</a>
+        contains 1240 buildings, which gives 2^<sup>1240</sup> possible combinations, but after
+        grouping and triangulation, the number of combinations reduced to:
+    <ul>
+        <li>~35000 for triangulation with unary_union</li>
+        <li>~3728 for triangulation with buffer and unary_union</li>
+    </ul>
+    I still have a lot of work to do, but this simple trick helped me to proceed further.
+    </p>
+</article>

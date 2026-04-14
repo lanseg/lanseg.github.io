@@ -39,6 +39,7 @@ header a.active {
 nav {
     max-width: 800px;
     margin: 0.5rem auto;
+    padding: 0 1rem;
     text-align: center;
     display: flex;
     justify-content: center;
